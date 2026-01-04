@@ -1,5 +1,8 @@
 package com.example.Project2.service;
 import com.example.Project2.exception.InformationExistException;
+import com.example.Project2.mailing.AccountPasswordResetEmailContext;
+import com.example.Project2.mailing.AccountVerificationEmailContext;
+import com.example.Project2.mailing.EmailService;
 import com.example.Project2.model.SecureToken;
 import com.example.Project2.model.User;
 import com.example.Project2.model.request.LoginRequest;

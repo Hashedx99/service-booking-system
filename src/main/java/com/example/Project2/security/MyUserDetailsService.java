@@ -2,6 +2,7 @@ package com.example.Project2.security;
 
 
 import com.example.Project2.model.User;
+import com.example.Project2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

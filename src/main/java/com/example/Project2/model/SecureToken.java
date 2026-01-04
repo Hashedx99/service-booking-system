@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 public class SecureToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // or AUTO
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String token;
     private LocalDateTime expireAt;

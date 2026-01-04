@@ -1,4 +1,4 @@
-package com.example.Project2.model.request;
+package com.example.Project2.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

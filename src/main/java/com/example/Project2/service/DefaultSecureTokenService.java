@@ -1,5 +1,7 @@
 package com.example.Project2.service;
 
+import com.example.Project2.model.SecureToken;
+import com.example.Project2.repository.SecureTokenRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

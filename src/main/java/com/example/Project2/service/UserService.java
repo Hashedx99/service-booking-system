@@ -1,6 +1,7 @@
 package com.example.Project2.service;
 import com.example.Project2.model.User;
 import com.example.Project2.repository.UserRepository;
+import com.example.Project2.security.JWTUtils;
 import com.example.Project2.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -26,24 +26,13 @@ public class User {
     private String emailAddress;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    //oner user can have only one profile its a one to one relation
     @OneToOne(
             cascade = CascadeType.ALL,fetch = FetchType.LAZY
     )
     @JoinColumn(name = "profile_id",referencedColumnName = "id")
     private UserProfile userProfile;
-    //users can have more than one recipe
-    @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)
-    private List<Recipe> recipeList;
-
-    //user can have more than one category
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private List<Category> categoryList;
 
     private boolean accountVerified;
-
-    @OneToMany(mappedBy = "user")
-    private Set<SecureToken> token;
 
     @JsonIgnore
     public String getPassword(){

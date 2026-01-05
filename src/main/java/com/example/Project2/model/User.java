@@ -34,6 +34,10 @@ public class User {
 
     private boolean accountVerified;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Property> properties;
+
     @JsonIgnore
     public String getPassword(){
         return password;

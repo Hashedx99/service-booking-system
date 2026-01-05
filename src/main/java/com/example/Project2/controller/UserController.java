@@ -50,6 +50,7 @@ public class UserController {
     public void validate(@RequestParam String token){
         System.out.println("calling change password in controller ========>");
         userService.validate(token);
+        System.out.println("blahblah");
         //userService.resetPassword(user.getEmailAddress());
     }
 //

@@ -1,6 +1,7 @@
 package com.example.Project2.controller;
 
 import com.example.Project2.model.User;
+import com.example.Project2.model.request.ChangePasswordRequest;
 import com.example.Project2.model.request.LoginRequest;
 import com.example.Project2.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,9 +41,9 @@ public class UserController {
         //userService.resetPassword(user.getEmailAddress());
     }
     @PutMapping("/change-password")
-    public void changePassword(@RequestBody String oldPass ,@RequestBody String newPass){
+    public void changePassword(@RequestBody ChangePasswordRequest request){
         System.out.println("calling change password in controller ========>");
-        userService.changePassword(oldPass,newPass );
+        userService.changePassword(request.getOldPass(), request.getNewPass() );
         //userService.resetPassword(user.getEmailAddress());
     }
     @GetMapping("/register/verify")

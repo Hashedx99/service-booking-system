@@ -36,7 +36,6 @@ public class UserService {
     @Autowired
     EmailService emailService;
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     @Autowired
     private SecureTokenService secureTokenService;
 //    @Autowired
@@ -70,6 +69,8 @@ public class UserService {
     public User findUserByEmail(String email){
         return userRepository.findUserByEmailAddress(email);
     }
+
+
     public ResponseEntity<?> loginUser(LoginRequest loginRequest){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword());
         try {
@@ -123,7 +124,21 @@ public class UserService {
 
     public void changePassword(String oldPass, String newPass) {
 
-        System.out.println(authentication.getAuthorities());
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        System.out.println("the useeeer");
+        User user =myUserDetails.getUser();
+        try {
+            if(passwordEncoder.matches(oldPass, user.getPassword())){
+
+                user.setPassword(passwordEncoder.encode(newPass));
+                userRepository.save(user);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void validate(String token) {

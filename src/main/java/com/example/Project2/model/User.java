@@ -33,6 +33,7 @@ public class User {
     private UserProfile userProfile;
 
     private boolean accountVerified;
+    private boolean isActivated;
 
     @JsonIgnore
     public String getPassword(){

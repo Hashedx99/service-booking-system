@@ -39,7 +39,7 @@ public class MyUserDetails implements UserDetails {
     }
     @Override
     public boolean isEnabled() {
-        return user.isAccountVerified();
+        return user.isAccountVerified()&&user.isActivated();
     }
     public User getUser() {
         return user;

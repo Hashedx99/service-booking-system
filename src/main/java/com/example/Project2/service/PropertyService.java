@@ -30,7 +30,7 @@ public class PropertyService {
         return propertyRepository.findById(id);
     }
 
-    // ✅ Update property details
+    //Update property details
     public Property updateProperty(Long id, Property updatedProperty) {
         return propertyRepository.findById(id)
                 .map(existing -> {
@@ -45,7 +45,7 @@ public class PropertyService {
                 .orElseThrow(() -> new RuntimeException("Property not found with id " + id));
     }
 
-    // ✅ Soft delete (mark as inactive instead of removing)
+    //Soft delete (mark as inactive instead of removing)
     public void softDeleteProperty(Long id) {
         propertyRepository.findById(id)
                 .ifPresent(property -> {
@@ -76,7 +76,7 @@ public class PropertyService {
         return propertyRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
-    // ✅ Only return active properties
+    // Only return active properties
     public List<Property> getActiveProperties() {
         return propertyRepository.findAll()
                 .stream()

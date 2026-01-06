@@ -78,4 +78,18 @@ public class ServiceService {
         // get and return the service
         return fetchServiceById(serviceId);
     }
+
+    // g
+
+    // function to delete a service by id
+    public com.example.Project2.model.Service deleteService(Long serviceId) {
+        // get the service
+        var service = fetchServiceById(serviceId);
+
+        // delete the service
+        serviceRepository.delete(service);
+
+        // return the deleted service
+        return service;
+    }
 }

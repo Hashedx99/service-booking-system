@@ -32,7 +32,7 @@ public class ServiceController {
         }
     }
 
-    // todo: update service api endpoint
+    // update service api endpoint
     @PutMapping("/{id}/update")
     public ResponseEntity<?> updateService(
             @RequestBody UpdateServiceRequest request,
@@ -50,7 +50,7 @@ public class ServiceController {
         }
     }
 
-    // todo: get single service api endpoint
+    // get single service api endpoint
     @GetMapping("/{id}")
     public ResponseEntity<?> getServiceById(
             @PathVariable(name = "id") long serviceId
@@ -67,7 +67,22 @@ public class ServiceController {
         }
     }
 
-    // todo:  get all services for a user api endpoint
+    // todo: get all services for a user api endpoint
 
-    // todo: delete a single service
+    // delete a single service
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<?> deleteService(
+            @PathVariable(name = "id") long serviceId
+    ) {
+        // try to delete a service
+        try {
+            // delete the service
+            var service = serviceService.deleteService(serviceId);
+
+            // return the deleted service as the body
+            return ResponseEntity.status(HttpStatus.OK).body(service);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

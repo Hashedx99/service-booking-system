@@ -1,15 +1,13 @@
 package com.example.Project2.controller;
 
 import com.example.Project2.controller.requests.service.CreateServiceRequest;
+import com.example.Project2.controller.requests.service.UpdateServiceRequest;
 import com.example.Project2.repository.ServiceRepository;
 import com.example.Project2.service.ServiceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -30,11 +28,27 @@ public class ServiceController {
             // return the created service as the body
             return ResponseEntity.status(HttpStatus.CREATED).body(service);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     // todo: update service api endpoint
+    @PutMapping("/{id}/update")
+    public ResponseEntity<?> updateService(
+            @RequestBody UpdateServiceRequest request,
+            @PathVariable(name = "id") long serviceId
+    ) {
+        // try to update the service
+        try {
+            // update the service
+            var service = serviceService.updateService(serviceId, request);
+
+            // return the updated service as the body
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(service);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     // todo: get single service api endpoint
 

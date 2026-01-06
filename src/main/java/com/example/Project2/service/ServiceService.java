@@ -1,9 +1,12 @@
 package com.example.Project2.service;
 
 import com.example.Project2.controller.requests.service.CreateServiceRequest;
+import com.example.Project2.controller.requests.service.UpdateServiceRequest;
+import com.example.Project2.exception.InformationNotFoundException;
 import com.example.Project2.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +32,38 @@ public class ServiceService {
         serviceRepository.save(service);
 
         // return the created entity
+        return service;
+    }
+
+    // function to update a service
+    public com.example.Project2.model.Service updateService(
+            Long serviceId,
+            UpdateServiceRequest request
+    ) {
+        // get the service by id
+        var service = serviceRepository.getServicesByServiceId(serviceId)
+                .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not found"));
+
+        // extract the request
+        var name = request.getServiceName();
+        var description = request.getServiceDescription();
+        var price = request.getServicePrice();
+
+        // update the provided fields
+        if (StringUtils.hasText(name)) {
+            service.setName(name);
+        }
+        if (StringUtils.hasText(description)) {
+            service.setDescription(description);
+        }
+        if (StringUtils.hasText(price)) {
+            service.setPrice(Double.parseDouble(price));
+        }
+
+        // update the changes
+        serviceRepository.save(service);
+
+        // return the updated entity
         return service;
     }
 }

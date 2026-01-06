@@ -17,15 +17,15 @@ public class Service {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "service")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "price")
     private double price;
 
     // FK's:
-    @JoinColumn(name = "schedule_id")
-    private Long scheduleId;
+//    @JoinColumn(name = "schedule_id")
+//    private Long scheduleId;
 
     @JoinColumn(name = "provider_id")
     private Long providerId;

@@ -1,5 +1,6 @@
 package com.example.Project2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,8 @@ public class Service {
 //    @JoinColumn(name = "schedule_id")
 //    private Long scheduleId;
 
-    @JoinColumn(name = "provider_id")
-    private Long providerId;
+    @JsonIgnore // do not print the user details
+    @ManyToOne(fetch = FetchType.LAZY) // do not fetch the user details when fetching a service
+    @JoinColumn(name = "provider_id", nullable = false)
+    private User user;
 }

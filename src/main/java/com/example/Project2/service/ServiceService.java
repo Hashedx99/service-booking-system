@@ -33,7 +33,7 @@ public class ServiceService {
         service.setName(request.getServiceName());
         service.setDescription(request.getServiceDescription());
         service.setPrice(request.getServicePrice());
-        service.setProviderId(user.getId());
+        service.setUser(user);
 
         // save the record
         serviceRepository.save(service);

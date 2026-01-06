@@ -39,4 +39,7 @@ public class User {
         return password;
     }
 
+    @OneToMany(mappedBy = "user")
+    private List<Service> services;
+
 }

@@ -14,6 +14,13 @@ public class ServiceService {
     private final UserService userService;
     private final ServiceRepository serviceRepository;
 
+    // function to fetch the service by id
+    private com.example.Project2.model.Service fetchServiceById(long serviceId) {
+        // fetch the service or throw exception
+        return serviceRepository.getServicesByServiceId(serviceId)
+                .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not found"));
+    }
+
     // function to create a service
     public com.example.Project2.model.Service createService(CreateServiceRequest request) {
         // get the user from the context holder
@@ -41,8 +48,7 @@ public class ServiceService {
             UpdateServiceRequest request
     ) {
         // get the service by id
-        var service = serviceRepository.getServicesByServiceId(serviceId)
-                .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not found"));
+        var service = fetchServiceById(serviceId);
 
         // extract the request
         var name = request.getServiceName();
@@ -65,5 +71,11 @@ public class ServiceService {
 
         // return the updated entity
         return service;
+    }
+
+    // function to get a service by id
+    public com.example.Project2.model.Service getServiceById(Long serviceId) {
+        // get and return the service
+        return fetchServiceById(serviceId);
     }
 }

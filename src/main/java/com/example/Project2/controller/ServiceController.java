@@ -51,6 +51,21 @@ public class ServiceController {
     }
 
     // todo: get single service api endpoint
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getServiceById(
+            @PathVariable(name = "id") long serviceId
+    ) {
+        // try to get the service
+        try {
+            // get the service
+            var service = serviceService.getServiceById(serviceId);
+
+            // return the fetched service as the body
+            return ResponseEntity.status(HttpStatus.OK).body(service);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     // todo:  get all services for a user api endpoint
 

@@ -66,7 +66,20 @@ public class ServiceController {
         }
     }
 
-    // todo: get all services for a user api endpoint
+    // get all services for a user api endpoint
+    @GetMapping("/")
+    public ResponseEntity<?> getAllServices() {
+        // try to get all the services for the authenticated user
+        try {
+            // get all the services
+            var services = serviceService.getAllServices();
+
+            // return the services as the body
+            return ResponseEntity.status(HttpStatus.OK).body(services);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     // delete a single service
     @DeleteMapping("/{id}/delete")

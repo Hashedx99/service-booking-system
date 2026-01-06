@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ServiceService {
@@ -79,7 +81,14 @@ public class ServiceService {
         return fetchServiceById(serviceId);
     }
 
-    // g
+    // function to get all the services for a user
+    public List<com.example.Project2.model.Service> getAllServices() {
+        // get the authenticated user
+        var user = userService.getUser();
+
+        // get and return all the services that belong to the user
+        return serviceRepository.getAllServicesByUserId(user.getId());
+    }
 
     // function to delete a service by id
     public com.example.Project2.model.Service deleteService(Long serviceId) {

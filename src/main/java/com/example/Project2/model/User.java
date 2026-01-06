@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"password","userProfile","categoryList","recipeList"})
+@ToString(exclude = {"password","userProfile"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
@@ -31,6 +31,7 @@ public class User {
     private UserProfile userProfile;
 
     private boolean accountVerified;
+    private boolean isActivated;
 
     @OneToMany(mappedBy = "user" , orphanRemoval = true)
     @JsonIgnore

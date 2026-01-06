@@ -57,6 +57,7 @@ public class UserService {
         System.out.println("service calling create user =======>");
         if (!userRepository.existsByEmailAddress(userObj.getEmailAddress())) {
             userObj.setPassword(passwordEncoder.encode(userObj.getPassword()));
+            userObj.setActivated(true);
             User result = userRepository.save(userObj);
             sendConfirmationEmail(userObj);
             return result;
@@ -150,10 +151,21 @@ public class UserService {
         userRepository.save(user);
     }
 
+
+    public void softDelete() {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        User user =myUserDetails.getUser();
+        user.setActivated(false);
+        userRepository.save(user); 
+}
+
     // function to get the user by the email from the security context holder
     public User getUser() {
         // return the user object from the user details object from the security context holder
         return ((MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
     }
 }
 

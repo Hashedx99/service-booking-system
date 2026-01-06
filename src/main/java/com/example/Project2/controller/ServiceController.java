@@ -81,7 +81,23 @@ public class ServiceController {
         }
     }
 
-    // delete a single service
+    // get all the services for a user api endpoint
+    @GetMapping("/{id}/")
+    public ResponseEntity<?> getServicesByUserId(
+            @PathVariable(name = "id") Long userId
+            ) {
+        try {
+            // get the user services
+            var services = serviceService.getServicesByUserId(userId);
+
+            // return the user services
+            return ResponseEntity.status(HttpStatus.OK).body(services);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // delete a single service api endpoint
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteService(
             @PathVariable(name = "id") long serviceId

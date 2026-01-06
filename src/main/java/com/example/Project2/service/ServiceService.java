@@ -90,6 +90,12 @@ public class ServiceService {
         return serviceRepository.getAllServicesByUserId(user.getId());
     }
 
+    // function to get all the services for a user by user id
+    public List<com.example.Project2.model.Service> getServicesByUserId(Long userId) {
+        // get and return all the services that belong to the user
+        return serviceRepository.getAllServicesByUserId(userId);
+    }
+
     // function to delete a service by id
     public com.example.Project2.model.Service deleteService(Long serviceId) {
         // get the service

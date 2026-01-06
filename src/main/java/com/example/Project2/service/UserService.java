@@ -1,4 +1,5 @@
 package com.example.Project2.service;
+
 import com.example.Project2.exception.InformationExistException;
 import com.example.Project2.mailing.AccountPasswordResetEmailContext;
 import com.example.Project2.mailing.AccountVerificationEmailContext;
@@ -44,51 +45,51 @@ public class UserService {
 
     public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, JWTUtils jwtUtils,
                        @Lazy AuthenticationManager authenticationManager,
-                       @Lazy MyUserDetails myUserDetails){
-        this.userRepository=userRepository;
-        this.passwordEncoder=passwordEncoder;
-        this.authenticationManager=authenticationManager;
-        this.jwtUtils=jwtUtils;
-        this.myUserDetails=myUserDetails;
+                       @Lazy MyUserDetails myUserDetails) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+        this.myUserDetails = myUserDetails;
     }
 
-    public User createUser(User userObj){
+    public User createUser(User userObj) {
         System.out.println("service calling create user =======>");
-        if(!userRepository.existsByEmailAddress(userObj.getEmailAddress())){
+        if (!userRepository.existsByEmailAddress(userObj.getEmailAddress())) {
             userObj.setPassword(passwordEncoder.encode(userObj.getPassword()));
             userObj.setActivated(true);
             User result = userRepository.save(userObj);
             sendConfirmationEmail(userObj);
             return result;
-        }
-        else{
+        } else {
             throw new InformationExistException("a user with this email already exists "
-                    +userObj.getEmailAddress() );
+                    + userObj.getEmailAddress());
         }
 
     }
-    public User findUserByEmail(String email){
+
+    public User findUserByEmail(String email) {
         return userRepository.findUserByEmailAddress(email);
     }
 
 
-    public ResponseEntity<?> loginUser(LoginRequest loginRequest){
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword());
+    public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest
-                            .getEmail(),loginRequest.getPassword()));
+                            .getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            myUserDetails=(MyUserDetails) authentication.getPrincipal();
+            myUserDetails = (MyUserDetails) authentication.getPrincipal();
             final String JWT = jwtUtils.generateJwtToken(myUserDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.ok(new LoginResponse("username or password are incorrect"));
         }
     }
-    public void sendConfirmationEmail(User user){
-        SecureToken secureToken=secureTokenService.createToken();
+
+    public void sendConfirmationEmail(User user) {
+        SecureToken secureToken = secureTokenService.createToken();
         secureToken.setUser(user);
         secureTokenService.saveSecureToken(secureToken);
         AccountVerificationEmailContext context = new AccountVerificationEmailContext();
@@ -100,8 +101,8 @@ public class UserService {
         emailService.sendMail(context);
     }
 
-    public void resetPassword(String email){
-        SecureToken secureToken=secureTokenService.createToken();
+    public void resetPassword(String email) {
+        SecureToken secureToken = secureTokenService.createToken();
         User user = userRepository.findUserByEmailAddress(email);
         System.out.println("service found user ====> " + user.getUserName());
         secureToken.setUser(user);
@@ -114,9 +115,10 @@ public class UserService {
         System.out.println("sending email to " + user.getEmailAddress());
         emailService.sendMail(context);
     }
-    public void resetPasswordActivator(String token,User userObj){
+
+    public void resetPasswordActivator(String token, User userObj) {
         SecureToken secureToken = secureTokenService.findByToken(token);
-        User user=secureToken.getUser();
+        User user = secureToken.getUser();
         user.setPassword(passwordEncoder.encode(userObj.getPassword()));
         userRepository.save(user);
         //secureTokenService.removeToken(secureToken);
@@ -129,9 +131,9 @@ public class UserService {
                 SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         System.out.println("the useeeer");
-        User user =myUserDetails.getUser();
+        User user = myUserDetails.getUser();
         try {
-            if(passwordEncoder.matches(oldPass, user.getPassword())){
+            if (passwordEncoder.matches(oldPass, user.getPassword())) {
 
                 user.setPassword(passwordEncoder.encode(newPass));
                 userRepository.save(user);
@@ -144,10 +146,11 @@ public class UserService {
 
     public void validate(String token) {
         SecureToken secureToken = secureTokenService.findByToken(token);
-        User user =  secureToken.getUser();
+        User user = secureToken.getUser();
         user.setAccountVerified(true);
         userRepository.save(user);
     }
+
 
     public void softDelete() {
         Authentication authentication =
@@ -155,7 +158,14 @@ public class UserService {
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         User user =myUserDetails.getUser();
         user.setActivated(false);
-        userRepository.save(user);
+        userRepository.save(user); 
+}
+
+    // function to get the user by the email from the security context holder
+    public User getUser() {
+        // return the user object from the user details object from the security context holder
+        return ((MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
     }
 }
 

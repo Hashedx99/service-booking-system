@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -35,9 +33,16 @@ public class User {
     private boolean accountVerified;
     private boolean isActivated;
 
+    @OneToMany(mappedBy = "user" , orphanRemoval = true)
+    @JsonIgnore
+    private List<Property> properties;
+
     @JsonIgnore
     public String getPassword(){
         return password;
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<Service> services;
 
 }

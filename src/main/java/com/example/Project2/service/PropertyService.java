@@ -60,8 +60,8 @@ public class PropertyService {
     }
 
     // --- Custom Queries ---
-    public List<Property> getPropertiesByUserId(Long userId) {
-        return propertyRepository.findByUser_UserId(userId);
+    public List<Property> getPropertiesByUserId(Long Id) {
+        return propertyRepository.findByUserId(Id);
     }
 
     public List<Property> getPropertiesByName(String name) {

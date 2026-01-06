@@ -10,15 +10,15 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
-    // ✅ Find all properties by user ID
-    List<Property> findByUser_UserId(Long userId);
+    //Find all properties by user ID
+    List<Property> findByUserId(Long Id);
 
-    // ✅ Find properties by name (case-insensitive)
+    //Find properties by name (case-insensitive)
     List<Property> findByNameIgnoreCase(String name);
 
-    // ✅ Find properties cheaper than a given price
+    //Find properties cheaper than a given price
     List<Property> findByPriceLessThan(Double price);
 
-    // ✅ Find properties with price between two values
+    //Find properties with price between two values
     List<Property> findByPriceBetween(Double minPrice, Double maxPrice);
 }

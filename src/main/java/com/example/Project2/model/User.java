@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -20,7 +18,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
     private String userName;
     @Column(unique = true)
     private String emailAddress;
@@ -34,7 +32,7 @@ public class User {
 
     private boolean accountVerified;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user" , orphanRemoval = true)
     @JsonIgnore
     private List<Property> properties;
 

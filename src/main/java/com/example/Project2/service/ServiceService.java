@@ -19,7 +19,7 @@ public class ServiceService {
     // function to fetch the service by id
     private com.example.Project2.model.Service fetchServiceById(long serviceId) {
         // fetch the service or throw exception
-        return serviceRepository.getServicesByServiceId(serviceId)
+        return serviceRepository.getServicesByServiceIdAndIsActiveTrue(serviceId)
                 .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not found"));
     }
 
@@ -87,13 +87,13 @@ public class ServiceService {
         var user = userService.getUser();
 
         // get and return all the services that belong to the user
-        return serviceRepository.getAllServicesByUserId(user.getId());
+        return serviceRepository.getAllServicesByUserIdAndIsActiveTrue(user.getId());
     }
 
     // function to get all the services for a user by user id
     public List<com.example.Project2.model.Service> getServicesByUserId(Long userId) {
         // get and return all the services that belong to the user
-        return serviceRepository.getAllServicesByUserId(userId);
+        return serviceRepository.getAllServicesByUserIdAndIsActiveTrue(userId);
     }
 
     // function to delete a service by id

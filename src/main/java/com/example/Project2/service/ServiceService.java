@@ -1,7 +1,7 @@
 package com.example.Project2.service;
 
-import com.example.Project2.controller.requests.service.CreateServiceRequest;
-import com.example.Project2.controller.requests.service.UpdateServiceRequest;
+import com.example.Project2.model.request.CreateServiceRequest;
+import com.example.Project2.model.request.UpdateServiceRequest;
 import com.example.Project2.exception.InformationNotFoundException;
 import com.example.Project2.repository.ServiceRepository;
 import lombok.AllArgsConstructor;

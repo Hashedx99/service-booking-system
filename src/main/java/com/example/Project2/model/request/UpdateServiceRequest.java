@@ -1,4 +1,4 @@
-package com.example.Project2.controller.requests.service;
+package com.example.Project2.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

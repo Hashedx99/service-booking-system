@@ -15,10 +15,10 @@
 	</parent>
 
 	<groupId>com.ga</groupId>
-	<artifactId>food</artifactId>
+	<artifactId>service-booking-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>food</name>
-	<description>Food application with email verification</description>
+	<name>service-booking-system</name>
+	<description>Service booking system application</description>
 
 	<properties>
 		<java.version>17</java.version>

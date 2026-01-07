@@ -113,4 +113,22 @@ public class ServiceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    // soft delete a single service api endpoint
+    @DeleteMapping("/{id}/soft-delete")
+    public ResponseEntity<?> softDeleteService(
+            @PathVariable(name = "id") Long serviceId
+    ){
+        // try to delete a service
+        try {
+            // delete the service
+            var service = serviceService.softDeleteService(serviceId);
+
+            // return the deleted service as the body
+            return ResponseEntity.status(HttpStatus.OK).body(service);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }

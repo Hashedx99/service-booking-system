@@ -107,4 +107,19 @@ public class ServiceService {
         // return the deleted service
         return service;
     }
+
+    // function to softly delete a service by id
+    public com.example.Project2.model.Service softDeleteService(Long serviceId) {
+        // get the service
+        var service = fetchServiceById(serviceId);
+
+        // make it not active
+        service.setIsActive(false);
+
+        // save the changes
+        serviceRepository.save(service);
+
+        // return the deleted service
+        return service;
+    }
 }

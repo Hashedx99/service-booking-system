@@ -24,6 +24,9 @@ public class Service {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
     // FK's:
 //    @JoinColumn(name = "schedule_id")
 //    private Long scheduleId;

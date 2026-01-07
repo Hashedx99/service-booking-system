@@ -19,6 +19,9 @@ public class ServiceBooking {
     @Column(name = "booking_date", nullable = false)
     private Instant bookingDate;
 
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
     // FK's
     @JoinColumn(name = "service_id")
     private Long serviceId;

@@ -22,7 +22,7 @@ public class UserProfile {
 
     private String profileDescription;
     @JsonIgnore
-    @OneToOne(mappedBy = "userProfile",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "userProfile",fetch = FetchType.EAGER)
     private User user;
 
 

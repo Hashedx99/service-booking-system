@@ -14,6 +14,9 @@ public class DataSeeder implements CommandLineRunner {
    }
     @Override
     public void run(String... args) throws Exception {
+        if (userRepository.existsByEmailAddress("test@gmail.com")) {
+            return;
+        }
             userSeed();
     }
     private void userSeed(){

@@ -1,5 +1,6 @@
 package com.example.Project2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,5 +20,10 @@ public class Image {
 
     @Column(name = "url_image")
     private String url;
+
+    @OneToOne
+    @JsonIgnore
+
+    private User user;
 
 }

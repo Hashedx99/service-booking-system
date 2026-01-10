@@ -2,6 +2,7 @@ package com.example.Project2.controller;
 
 import com.example.Project2.model.User;
 import com.example.Project2.model.request.ChangePasswordRequest;
+import com.example.Project2.model.request.ImageModel;
 import com.example.Project2.model.request.LoginRequest;
 import com.example.Project2.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,5 +58,10 @@ public class UserController {
     public void softDelete(){
         System.out.println("calling soft delete user in user controller ========>");
         userService.softDelete();
+    }
+    @PutMapping("/set-image")
+    public User setImage(ImageModel image){
+        System.out.println("calling set image in controller ========>");
+        return userService.setUserImage(image);
     }
 }

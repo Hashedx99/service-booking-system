@@ -2,7 +2,6 @@ package com.example.Project2.security;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,12 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final JwtRequestFilter jwtRequestFilter;
     private final AuthenticationEntryPoint authenticationEntryPoint;
-    private UserDetailsService myUserDetailsService;
-
-    @Autowired
-    public void setMyUserDetailsService(UserDetailsService myUserDetailsService) {
-        this.myUserDetailsService = myUserDetailsService;
-    }
+    private final UserDetailsService myUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

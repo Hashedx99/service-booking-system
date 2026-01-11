@@ -45,20 +45,4 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         mapper.writeValue(response.getOutputStream(), body);
     }
-
-//    @Override
-//    public void commence(HttpServletRequest request, HttpServletResponse response,
-//                         AuthenticationException authException) throws IOException, ServletException {
-//
-//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//        response.setContentType("application/json");
-//        var body = Map.of(
-//                "status", 401,
-//                "error", "UNAUTHORIZED",
-//                "message", authException.getMessage(),
-//                "path", request.getRequestURI()
-//        );
-//
-//        mapper.writeValue(response.getOutputStream(), body);
-//    }
 }

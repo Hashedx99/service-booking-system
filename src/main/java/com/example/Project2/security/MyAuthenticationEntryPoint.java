@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -16,9 +18,10 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
 
     @Override
     public void commence(HttpServletRequest request,

@@ -1,0 +1,62 @@
+package com.example.Project2.security;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+@Slf4j
+@Component
+public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    @Override
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException authException) throws IOException, ServletException {
+
+        String errorMsg = request.getAttribute("auth_error") == null ? authException.getMessage() : (String) request.getAttribute("auth_error");
+        buildErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized", errorMsg,
+                request.getServletPath());
+    }
+
+    private void buildErrorResponse(HttpServletResponse response, int status, String error, String message, String path)
+            throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(status);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", status);
+        body.put("error", error);
+        body.put("message", message);
+        body.put("path", path);
+
+        mapper.writeValue(response.getOutputStream(), body);
+    }
+
+//    @Override
+//    public void commence(HttpServletRequest request, HttpServletResponse response,
+//                         AuthenticationException authException) throws IOException, ServletException {
+//
+//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//        response.setContentType("application/json");
+//        var body = Map.of(
+//                "status", 401,
+//                "error", "UNAUTHORIZED",
+//                "message", authException.getMessage(),
+//                "path", request.getRequestURI()
+//        );
+//
+//        mapper.writeValue(response.getOutputStream(), body);
+//    }
+}

@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authorizeHttpRequests(auth->auth.requestMatchers(
                         "/auth/users","/auth/users/login","/auth/users/register","/auth/users/register/verify",
-                        "/auth/users/reset-password/","auth/users/**","upload"
+                        "/auth/users/reset-password/","auth/users/**"
                 ).permitAll().anyRequest().authenticated());
         http.addFilterBefore(authenticationJwtToken(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

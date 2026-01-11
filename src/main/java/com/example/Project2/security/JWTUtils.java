@@ -30,19 +30,19 @@ public class JWTUtils {
             return true;
         } catch (SecurityException e) {
             logger.log(Level.SEVERE, "Invalid JWT signature: {0}", e.getMessage());
-            httpServletRequest.setAttribute("auth_error", "Invalid JWT signature - " + e.getMessage());
+            httpServletRequest.setAttribute("auth_error", "Invalid JWT signature");
         } catch (MalformedJwtException e) {
             logger.log(Level.SEVERE, "Invalid JWT token: {0}", e.getMessage());
-            httpServletRequest.setAttribute("auth_error", "Invalid JWT token - " + e.getMessage());
+            httpServletRequest.setAttribute("auth_error", "Invalid JWT token");
         } catch (ExpiredJwtException e) {
             logger.log(Level.SEVERE, "JWT token is expired: {0}", e.getMessage());
-            httpServletRequest.setAttribute("auth_error", "JWT token is expired - " + e.getMessage());
+            httpServletRequest.setAttribute("auth_error", "JWT token is expired");
         } catch (UnsupportedJwtException e) {
             logger.log(Level.SEVERE, "JWT token is unsupported: {0}", e.getMessage());
-            httpServletRequest.setAttribute("auth_error", "JWT token is unsupported - " + e.getMessage());
+            httpServletRequest.setAttribute("auth_error", "JWT token is unsupported");
         } catch (IllegalArgumentException e) {
             logger.log(Level.SEVERE, "JWT claims string is empty: {0}", e.getMessage());
-            httpServletRequest.setAttribute("auth_error", "JWT claims string is empty - " + e.getMessage());
+            httpServletRequest.setAttribute("auth_error", "JWT claims string is empty");
         }
         return false;
     }

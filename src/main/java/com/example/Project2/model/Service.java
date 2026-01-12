@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -35,4 +37,7 @@ public class Service {
     @ManyToOne(fetch = FetchType.LAZY) // do not fetch the user details when fetching a service
     @JoinColumn(name = "provider_id", nullable = false)
     private User user;
+
+    @OneToMany
+    private List<ServiceSchedule> schedules;
 }

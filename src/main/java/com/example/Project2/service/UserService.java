@@ -1,6 +1,7 @@
 package com.example.Project2.service;
 
 import com.example.Project2.exception.InformationExistException;
+import com.example.Project2.exception.InformationNotFoundException;
 import com.example.Project2.mailing.AccountPasswordResetEmailContext;
 import com.example.Project2.mailing.AccountVerificationEmailContext;
 import com.example.Project2.mailing.EmailService;
@@ -156,16 +157,24 @@ public class UserService {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-        User user =myUserDetails.getUser();
+        User user = myUserDetails.getUser();
         user.setActivated(false);
-        userRepository.save(user); 
-}
+        userRepository.save(user);
+    }
 
     // function to get the user by the email from the security context holder
     public User getUser() {
         // return the user object from the user details object from the security context holder
         return ((MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
+    }
+
+    // function to get a user by id
+
+    public User getUserById(Long id) {
+        // return the user or throw not found exceptions
+        return userRepository.getUserById(id)
+                .orElseThrow(() -> new InformationNotFoundException("user not found"));
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.Project2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +24,16 @@ public class ServiceBooking {
     private Boolean isActive = true;
 
     // FK's
-    @JoinColumn(name = "service_id")
-    private Long serviceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", nullable = false)
+    @JsonIgnore
+    private Service service;
 
-    @JoinColumn(name = "provider_id")
-    private Long providerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provider_id", nullable = false)
+    @JsonIgnore
+    private User provider;
 
-    @JoinColumn(name = "user_id")
-    private Long userId;
+//    @JoinColumn(name = "user_id")
+//    private Long userId;
 }

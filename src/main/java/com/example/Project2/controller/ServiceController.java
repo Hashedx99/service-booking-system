@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceController {
     private final ServiceService serviceService;
 
-    // create service api endpoint
-    @PostMapping("/create")
+    // CREATE
+    @PostMapping
     public ResponseEntity<?> createService(
             @RequestBody CreateServiceRequest request
     ) {
@@ -31,8 +31,8 @@ public class ServiceController {
         }
     }
 
-    // update service api endpoint
-    @PutMapping("/{id}/update")
+    // UPDATE
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateService(
             @RequestBody UpdateServiceRequest request,
             @PathVariable(name = "id") long serviceId
@@ -49,7 +49,7 @@ public class ServiceController {
         }
     }
 
-    // get single service api endpoint
+    // READ ONE
     @GetMapping("/{id}")
     public ResponseEntity<?> getServiceById(
             @PathVariable(name = "id") long serviceId
@@ -66,8 +66,8 @@ public class ServiceController {
         }
     }
 
-    // get all services for a user api endpoint
-    @GetMapping("/")
+    // READ ALL
+    @GetMapping
     public ResponseEntity<?> getAllServices() {
         // try to get all the services for the authenticated user
         try {
@@ -81,11 +81,11 @@ public class ServiceController {
         }
     }
 
-    // get all the services for a user api endpoint
-    @GetMapping("/{id}/")
+    // READ BY USER (NESTED RESOURCE)
+    @GetMapping("/users/{userId}")
     public ResponseEntity<?> getServicesByUserId(
-            @PathVariable(name = "id") Long userId
-            ) {
+            @PathVariable Long userId
+    ) {
         try {
             // get the user services
             var services = serviceService.getServicesByUserId(userId);
@@ -97,8 +97,8 @@ public class ServiceController {
         }
     }
 
-    // delete a single service api endpoint
-    @DeleteMapping("/{id}/delete")
+    // HARD DELETE
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteService(
             @PathVariable(name = "id") long serviceId
     ) {
@@ -114,15 +114,15 @@ public class ServiceController {
         }
     }
 
-    // soft delete a single service api endpoint
-    @DeleteMapping("/{id}/soft-delete")
-    public ResponseEntity<?> softDeleteService(
+    // SOFT DELETE (STATE CHANGE)
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> deactivateService(
             @PathVariable(name = "id") Long serviceId
-    ){
+    ) {
         // try to delete a service
         try {
             // delete the service
-            var service = serviceService.softDeleteService(serviceId);
+            var service = serviceService.deactivateService(serviceId);
 
             // return the deleted service as the body
             return ResponseEntity.status(HttpStatus.OK).body(service);

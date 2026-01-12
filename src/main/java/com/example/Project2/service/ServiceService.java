@@ -108,8 +108,8 @@ public class ServiceService {
         return service;
     }
 
-    // function to softly delete a service by id
-    public com.example.Project2.model.Service softDeleteService(Long serviceId) {
+    // function to deactivate a service by id
+    public com.example.Project2.model.Service deactivateService(Long serviceId) {
         // get the service
         var service = fetchServiceById(serviceId);
 

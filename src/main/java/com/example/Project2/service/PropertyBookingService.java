@@ -63,5 +63,12 @@ public class PropertyBookingService {
         return propertyBookingRepository.findByActiveTrue();
     }
 
+    public List<PropertyBooking> getBookingsByPropertyId(Long propertyId) {
+        List<PropertyBooking> bookings = propertyBookingRepository.findByPropertyId(propertyId);
+        if (bookings.isEmpty()) {
+            throw new IllegalArgumentException("No bookings found for property id: " + propertyId);
+        }
+        return bookings;
+    }
 
 }

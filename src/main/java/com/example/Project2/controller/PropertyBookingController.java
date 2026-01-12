@@ -35,6 +35,11 @@ public class PropertyBookingController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    // Get booking by propertyID
+    @GetMapping("/property/{id}")
+    public List<PropertyBooking>getBookingByPropertyId(@PathVariable Long id) {
+        return propertyBookingService.getBookingsByPropertyId(id);
+    }
 
     // Get all bookings
     @GetMapping

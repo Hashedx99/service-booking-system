@@ -76,7 +76,7 @@ public class ServiceBookingController {
     }
 
     // DEACTIVATE (RESTFUL SOFT DELETE)
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> deactivate(@PathVariable Long id) {
         // deactivate the booking
         bookingService.deactivate(id);

@@ -23,7 +23,6 @@ public class Image {
 
     @OneToOne
     @JsonIgnore
-
-    private User user;
+    private UserProfile userProfile;
 
 }

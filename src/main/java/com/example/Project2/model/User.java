@@ -33,9 +33,6 @@ public class User {
     private boolean accountVerified;
     private boolean isActivated;
 
-    @OneToOne(mappedBy = "user" , fetch = FetchType.EAGER)
-    private Image image;
-
     @OneToMany(mappedBy = "user" , orphanRemoval = true , fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Property> properties;

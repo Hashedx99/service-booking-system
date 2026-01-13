@@ -25,6 +25,8 @@ public class UserProfile {
     @OneToOne(mappedBy = "userProfile",fetch = FetchType.EAGER)
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 
 }
 

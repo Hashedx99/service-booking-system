@@ -85,7 +85,7 @@ public class UserService {
         String imgUrl = imageService.uploadImage(image,"usersImages");
         //System.out.println(imgUrl);
         Image savedImage = imageRepository.findByUrl(imgUrl);
-        user.setImage(savedImage);
+        user.getUserProfile().setImage(savedImage);
 
 
         return user;

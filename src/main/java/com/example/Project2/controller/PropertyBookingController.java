@@ -1,6 +1,8 @@
 package com.example.Project2.controller;
 
 import com.example.Project2.model.PropertyBooking;
+import com.example.Project2.model.request.CreatePropertyBooking;
+import com.example.Project2.model.request.UpdatePropertyBookingDate;
 import com.example.Project2.service.PropertyBookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +22,8 @@ public class PropertyBookingController {
 
     // Create booking
     @PostMapping
-    public ResponseEntity<PropertyBooking> createBooking(
-            @RequestParam LocalDate bookingDate,
-            @RequestParam Long userId,
-            @RequestParam Long propertyId) {
-        PropertyBooking booking = propertyBookingService.createBooking(bookingDate, userId, propertyId);
+    public ResponseEntity<PropertyBooking> createBooking( @RequestBody CreatePropertyBooking model) {
+        PropertyBooking booking = propertyBookingService.createBooking(model.getBookingDate(), model.getUserId(), model.getPropertyId());
         return ResponseEntity.ok(booking);
     }
 
@@ -48,11 +47,9 @@ public class PropertyBookingController {
     }
 
     // Update booking date
-    @PutMapping("/{id}/date")
-    public ResponseEntity<PropertyBooking> updateBookingDate(
-            @PathVariable Long id,
-            @RequestParam LocalDate newDate) {
-        PropertyBooking updated = propertyBookingService.updateBookingDate(id, newDate);
+    @PutMapping("/date")
+    public ResponseEntity<PropertyBooking> updateBookingDate(@RequestBody UpdatePropertyBookingDate model) {
+        PropertyBooking updated = propertyBookingService.updateBookingDate(model.getId(), model.getNewDate());
         return ResponseEntity.ok(updated);
     }
 

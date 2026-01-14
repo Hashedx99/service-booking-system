@@ -4,10 +4,13 @@ import com.example.Project2.exception.InformationExistException;
 import com.example.Project2.mailing.AccountPasswordResetEmailContext;
 import com.example.Project2.mailing.AccountVerificationEmailContext;
 import com.example.Project2.mailing.EmailService;
+import com.example.Project2.model.Image;
 import com.example.Project2.model.SecureToken;
 import com.example.Project2.model.User;
+import com.example.Project2.model.request.ImageModel;
 import com.example.Project2.model.request.LoginRequest;
 import com.example.Project2.model.response.LoginResponse;
+import com.example.Project2.repository.ImageRepository;
 import com.example.Project2.repository.UserRepository;
 import com.example.Project2.security.JWTUtils;
 import com.example.Project2.security.MyUserDetails;
@@ -19,9 +22,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -36,6 +42,12 @@ public class UserService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    ImageServiceImpl imageService;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     @Autowired
     private SecureTokenService secureTokenService;
@@ -65,6 +77,19 @@ public class UserService {
             throw new InformationExistException("a user with this email already exists "
                     + userObj.getEmailAddress());
         }
+
+    }
+    public User setUserImage(ImageModel image){
+        User user = getUser();
+        System.out.println("fouuuuuuuund===" + user);
+        String imgUrl = imageService.uploadImage(image,"usersImages");
+        //System.out.println(imgUrl);
+        Image savedImage = imageRepository.findByUrl(imgUrl);
+        user.getUserProfile().setImage(savedImage);
+
+
+        return user;
+
 
     }
 

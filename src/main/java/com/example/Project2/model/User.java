@@ -25,7 +25,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @OneToOne(
-            cascade = CascadeType.ALL,fetch = FetchType.LAZY
+            cascade = CascadeType.ALL,fetch = FetchType.EAGER
     )
     @JoinColumn(name = "profile_id",referencedColumnName = "id")
     private UserProfile userProfile;
@@ -33,7 +33,7 @@ public class User {
     private boolean accountVerified;
     private boolean isActivated;
 
-    @OneToMany(mappedBy = "user" , orphanRemoval = true)
+    @OneToMany(mappedBy = "user" , orphanRemoval = true , fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Property> properties;
 
@@ -42,7 +42,7 @@ public class User {
         return password;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
     private List<Service> services;
 
 }

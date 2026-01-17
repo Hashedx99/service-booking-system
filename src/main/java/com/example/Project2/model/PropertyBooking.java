@@ -27,4 +27,5 @@ public class PropertyBooking {
     @JoinColumn(name = "property_id", nullable = false) // FK to Property
     private Property property;
 
+    private boolean active;
 }

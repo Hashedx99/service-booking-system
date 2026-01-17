@@ -1,5 +1,6 @@
 package com.example.Project2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,7 @@ public class ServiceSchedule {
 
     // FK's
     @JoinColumn(name = "service_id", nullable = false)
-    private Long serviceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Service service;
 }

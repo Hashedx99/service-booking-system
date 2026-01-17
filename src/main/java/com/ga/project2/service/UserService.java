@@ -2,6 +2,7 @@ package com.ga.project2.service;
 
 import com.ga.project2.exception.InformationExistException;
 import com.ga.project2.exception.InformationNotFoundException;
+import com.ga.project2.exception.MissingFieldException;
 import com.ga.project2.mailing.AccountPasswordResetEmailContext;
 import com.ga.project2.mailing.AccountVerificationEmailContext;
 import com.ga.project2.mailing.EmailService;
@@ -154,6 +155,9 @@ public class UserService {
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         System.out.println("the useeeer");
         User user = myUserDetails.getUser();
+        if (newPass == null) {
+            throw new MissingFieldException("New password must not be null");
+        }
         try {
             if (passwordEncoder.matches(oldPass, user.getPassword())) {
 

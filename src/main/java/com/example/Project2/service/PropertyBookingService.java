@@ -64,7 +64,7 @@ public class PropertyBookingService {
     }
 
     public List<PropertyBooking> getBookingsByPropertyId(Long propertyId) {
-        List<PropertyBooking> bookings = propertyBookingRepository.findByPropertyId(propertyId);
+        List<PropertyBooking> bookings = propertyBookingRepository.findByProperty_propertyId(propertyId);
         if (bookings.isEmpty()) {
             throw new IllegalArgumentException("No bookings found for property id: " + propertyId);
         }

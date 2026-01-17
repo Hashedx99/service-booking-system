@@ -65,15 +65,23 @@ public class UserService {
 
     public User createUser(User userObj) {
         System.out.println("service calling create user =======>");
-        if (!userRepository.existsByEmailAddress(userObj.getEmailAddress())) {
+        User existingUser = userRepository.findUserByEmailAddress(userObj.getEmailAddress());
+        if (existingUser != null) {
+            if (!existingUser.isActivated()) {
+                existingUser.setActivated(true);
+                existingUser.setPassword(passwordEncoder.encode(userObj.getPassword()));
+                User result = userRepository.save(existingUser);
+                sendConfirmationEmail(existingUser);
+                return result;
+            } else {
+                throw new InformationExistException("a user with this email already exists " + userObj.getEmailAddress());
+            }
+        } else {
             userObj.setPassword(passwordEncoder.encode(userObj.getPassword()));
             userObj.setActivated(true);
             User result = userRepository.save(userObj);
             sendConfirmationEmail(userObj);
             return result;
-        } else {
-            throw new InformationExistException("a user with this email already exists "
-                    + userObj.getEmailAddress());
         }
 
     }
@@ -184,6 +192,7 @@ public class UserService {
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         User user = myUserDetails.getUser();
         user.setActivated(false);
+        user.setAccountVerified(false);
         userRepository.save(user);
     }
 

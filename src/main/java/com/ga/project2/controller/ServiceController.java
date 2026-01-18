@@ -17,7 +17,7 @@ public class ServiceController {
     // CREATE
     @PostMapping
     public ResponseEntity<?> createService(
-            @RequestBody CreateServiceRequest request
+            @ModelAttribute CreateServiceRequest request // @ModelAttribute allow us to upload the files
     ) {
         // try to create the service
         try {

@@ -1,6 +1,10 @@
 package com.ga.project2.service;
 
 import com.ga.project2.model.Property;
+import com.ga.project2.model.User;
+import com.ga.project2.model.request.CreatePropertyRequest;
+import com.ga.project2.model.request.ImageModel;
+import com.ga.project2.repository.ImageRepository;
 import com.ga.project2.repository.PropertyRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +15,41 @@ import java.util.Optional;
 public class PropertyService {
 
     private final PropertyRepository propertyRepository;
-
-    public PropertyService(PropertyRepository propertyRepository) {
+    private final ImageServiceImpl imageService;
+    private final ImageRepository imageRepository;
+    public PropertyService(PropertyRepository propertyRepository, ImageServiceImpl imageService, ImageRepository imageRepository) {
         this.propertyRepository = propertyRepository;
+        this.imageService = imageService;
+        this.imageRepository = imageRepository;
     }
 
     // --- CRUD Methods ---
 
-    public Property saveProperty(Property property) {
+    public Property saveProperty(CreatePropertyRequest model) {
+
+        Property property =new Property();
+        property.setActive(model.isActive());
+        property.setName(model.getName());
+        property.setPrice(model.getPrice());
+        property.setDescription(model.getDescription());
+        User user=new User();
+        user.setId(model.getUserId());
+        property.setUser(user);
+
+        // upload the image
+        var imageUrl = imageService.uploadImage(
+                new ImageModel(
+                        model.getName(),
+                        model.getPropertyImage()
+                ),
+                "propertyImages"
+        );
+
+        // get the image by url
+        var image = imageRepository.findByUrl(imageUrl);
+
+        property.setImage(image);
+
         return propertyRepository.save(property);
     }
 

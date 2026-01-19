@@ -1,7 +1,11 @@
 package com.ga.project2.controller;
 
 import com.ga.project2.model.Property;
+import com.ga.project2.model.User;
+import com.ga.project2.model.request.CreatePropertyRequest;
 import com.ga.project2.service.PropertyService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,9 +43,17 @@ public class PropertyController {
 
     // Create new property
     @PostMapping
-    public Property createProperty(@RequestBody Property property) {
-        return propertyService.saveProperty(property);
+    public ResponseEntity<?> createProperty(@ModelAttribute CreatePropertyRequest model) {
+
+        try{
+            return ResponseEntity.status(HttpStatus.CREATED).body( propertyService.saveProperty(model));
+
+        }
+    catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
     }
+     }
 
     // Update property
     @PutMapping("/{id}")

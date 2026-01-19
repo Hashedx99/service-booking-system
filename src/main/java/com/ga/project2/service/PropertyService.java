@@ -37,7 +37,6 @@ public class PropertyService {
                     existing.setName(updatedProperty.getName());
                     existing.setDescription(updatedProperty.getDescription());
                     existing.setPrice(updatedProperty.getPrice());
-                    existing.setScheduleId(updatedProperty.getScheduleId());
                     existing.setActive(updatedProperty.isActive());
                     existing.setUser(updatedProperty.getUser());
                     return propertyRepository.save(existing);

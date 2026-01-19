@@ -24,7 +24,6 @@ public class Property {
     private String name;
     private String description;
     private Double price;
-    private String scheduleId;
     private boolean active;
 
     public boolean isActive() {

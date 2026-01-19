@@ -14,4 +14,11 @@ public class UpdatePropertyBookingDate {
         return NewDate;
     }
 
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public void setNewDate(LocalDate newDate) {
+        NewDate = newDate;
+    }
 }

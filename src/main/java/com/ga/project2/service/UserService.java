@@ -105,8 +105,7 @@ public class UserService {
 
 
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-        try {
+         try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest
                             .getEmail(), loginRequest.getPassword()));

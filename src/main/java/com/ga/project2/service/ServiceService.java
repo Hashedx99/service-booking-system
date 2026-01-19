@@ -112,12 +112,17 @@ public class ServiceService {
     }
 
     // function to get all the services for a user
-    public List<com.ga.project2.model.Service> getAllServices() {
+    public List<com.ga.project2.model.Service> getAllMyServices() {
         // get the authenticated user
         var user = userService.getUser();
 
         // get and return all the services that belong to the user
         return serviceRepository.getAllServicesByUserIdAndIsActiveTrue(user.getId());
+    }
+
+    public List<com.ga.project2.model.Service> getAllServices() {
+        // get and return all the services
+        return serviceRepository.getAllServicesByIsActiveTrue();
     }
 
     // function to get all the services for a user by user id

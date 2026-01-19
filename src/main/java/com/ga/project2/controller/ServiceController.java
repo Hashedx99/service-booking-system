@@ -38,9 +38,15 @@ public class ServiceController {
     }
 
     // READ ALL
-    @GetMapping
-    public List<Service> getAllServices() {
+    @GetMapping("/my-services")
+    public List<Service> getAllMyServices() {
         // get all the services
+        return serviceService.getAllMyServices();
+    }
+
+    @GetMapping
+    public List<Service> getAllActiveServices() {
+        // get all the active services
         return serviceService.getAllServices();
     }
 

@@ -10,4 +10,5 @@ public interface ServiceRepository extends CrudRepository<Service, Long> {
     Optional<Service> getServicesByServiceIdAndIsActiveTrue(Long serviceId);
     Optional<Service> getServicesByServiceIdAndUser_IdAndIsActiveTrue(Long serviceId, Long providerId);
     List<Service> getAllServicesByUserIdAndIsActiveTrue(Long userId);
+    List<Service> getAllServicesByIsActiveTrue();
 }

@@ -1,5 +1,6 @@
 package com.ga.project2.controller;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.ServiceSchedule;
 import com.ga.project2.service.ServiceScheduleService;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class ServiceScheduleController {
     public ResponseEntity<ServiceSchedule> create(
             @RequestParam Long serviceId,
             @RequestParam Instant date
-    ) {
+    ) throws UserNotAuthorizedException {
         // create the schedule
         var schedule = scheduleService.create(serviceId, date);
 

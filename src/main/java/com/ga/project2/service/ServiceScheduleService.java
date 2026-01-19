@@ -1,5 +1,6 @@
 package com.ga.project2.service;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.ServiceSchedule;
 import com.ga.project2.repository.ServiceScheduleRepository;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ public class ServiceScheduleService {
     private final ServiceScheduleRepository scheduleRepository;
 
     // function to create a new schedule
-    public ServiceSchedule create(Long serviceId, Instant date) {
+    public ServiceSchedule create(Long serviceId, Instant date) throws UserNotAuthorizedException {
         // get the service from the db
         var service = serviceService.getServiceById(serviceId);
 

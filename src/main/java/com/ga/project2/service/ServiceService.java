@@ -1,5 +1,7 @@
 package com.ga.project2.service;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
+import com.ga.project2.model.UserRoles;
 import com.ga.project2.model.Image;
 import com.ga.project2.model.request.CreateServiceRequest;
 import com.ga.project2.model.request.ImageModel;
@@ -22,10 +24,20 @@ public class ServiceService {
     private final ImageRepository imageRepository;
 
     // function to fetch the service by id
-    private com.ga.project2.model.Service fetchServiceById(long serviceId) {
+    private com.ga.project2.model.Service fetchServiceById(long serviceId) throws UserNotAuthorizedException {
         // fetch the service or throw exception
-        return serviceRepository.getServicesByServiceIdAndIsActiveTrue(serviceId)
-                .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not found"));
+        if (UserRoles.CUSTOMER == userService.getUser().getRole()) {
+            serviceRepository.getServicesByServiceIdAndUser_IdAndIsActiveTrue(serviceId, userService.getUser().getId())
+                    .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not " +
+                            "found"));
+        } else if (UserRoles.ADMIN == userService.getUser().getRole()) {
+            serviceRepository.getServicesByServiceIdAndIsActiveTrue(serviceId)
+                    .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not " +
+                            "found"));
+        } else {
+            throw new UserNotAuthorizedException("User not authorized to access this resource");
+        }
+        return null;
     }
 
     // function to create a service
@@ -66,7 +78,7 @@ public class ServiceService {
     public com.ga.project2.model.Service updateService(
             Long serviceId,
             UpdateServiceRequest request
-    ) {
+    ) throws UserNotAuthorizedException {
         // get the service by id
         var service = fetchServiceById(serviceId);
 
@@ -94,7 +106,7 @@ public class ServiceService {
     }
 
     // function to get a service by id
-    public com.ga.project2.model.Service getServiceById(Long serviceId) {
+    public com.ga.project2.model.Service getServiceById(Long serviceId) throws UserNotAuthorizedException {
         // get and return the service
         return fetchServiceById(serviceId);
     }
@@ -115,7 +127,7 @@ public class ServiceService {
     }
 
     // function to delete a service by id
-    public com.ga.project2.model.Service deleteService(Long serviceId) {
+    public com.ga.project2.model.Service deleteService(Long serviceId) throws UserNotAuthorizedException {
         // get the service
         var service = fetchServiceById(serviceId);
 
@@ -127,7 +139,7 @@ public class ServiceService {
     }
 
     // function to deactivate a service by id
-    public com.ga.project2.model.Service deactivateService(Long serviceId) {
+    public com.ga.project2.model.Service deactivateService(Long serviceId) throws UserNotAuthorizedException {
         // get the service
         var service = fetchServiceById(serviceId);
 

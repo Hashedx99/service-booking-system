@@ -2,7 +2,7 @@ package com.ga.project2.model.request;
 
 import java.time.LocalDate;
 
-public class UpdatePropertyBookingDate {
+public class UpdateBookingDate {
     private Long Id;
     private LocalDate NewDate;
 

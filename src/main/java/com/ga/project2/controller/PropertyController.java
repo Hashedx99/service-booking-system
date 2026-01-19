@@ -1,7 +1,9 @@
 package com.ga.project2.controller;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.Property;
 import com.ga.project2.service.PropertyService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,13 +11,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/properties")
+@AllArgsConstructor
 public class PropertyController {
 
     private final PropertyService propertyService;
-
-    public PropertyController(PropertyService propertyService) {
-        this.propertyService = propertyService;
-    }
 
     // --- CRUD Endpoints ---
 
@@ -45,19 +44,19 @@ public class PropertyController {
 
     // Update property
     @PutMapping("/{id}")
-    public Property updateProperty(@PathVariable Long id, @RequestBody Property property) {
+    public Property updateProperty(@PathVariable Long id, @RequestBody Property property) throws UserNotAuthorizedException {
         return propertyService.updateProperty(id, property);
     }
 
     // Soft delete property (mark inactive)
     @DeleteMapping("/soft/{id}")
-    public void softDeleteProperty(@PathVariable Long id) {
+    public void softDeleteProperty(@PathVariable Long id) throws UserNotAuthorizedException {
         propertyService.softDeleteProperty(id);
     }
 
     // Hard delete property (remove from DB)
     @DeleteMapping("/{id}")
-    public void deleteProperty(@PathVariable Long id) {
+    public void deleteProperty(@PathVariable Long id) throws UserNotAuthorizedException {
         propertyService.deleteProperty(id);
     }
 

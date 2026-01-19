@@ -1,8 +1,11 @@
 package com.ga.project2.service;
 
+import com.ga.project2.model.Image;
 import com.ga.project2.model.request.CreateServiceRequest;
+import com.ga.project2.model.request.ImageModel;
 import com.ga.project2.model.request.UpdateServiceRequest;
 import com.ga.project2.exception.InformationNotFoundException;
+import com.ga.project2.repository.ImageRepository;
 import com.ga.project2.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ import java.util.List;
 public class ServiceService {
     private final UserService userService;
     private final ServiceRepository serviceRepository;
+    private final ImageServiceImpl imageService;
+    private final ImageRepository imageRepository;
 
     // function to fetch the service by id
     private com.ga.project2.model.Service fetchServiceById(long serviceId) {
@@ -31,11 +36,24 @@ public class ServiceService {
         // create service instance
         var service = new com.ga.project2.model.Service();
 
-        // pass the fields
+        // upload the image
+        var imageUrl = imageService.uploadImage(
+                new ImageModel(
+                        request.getServiceName(),
+                        request.getServiceImage()
+                ),
+                "serviceImages"
+        );
+
+        // get the image by url
+        var image = imageRepository.findByUrl(imageUrl);
+
+        // set the fields
         service.setName(request.getServiceName());
         service.setDescription(request.getServiceDescription());
         service.setPrice(request.getServicePrice());
         service.setUser(user);
+        service.setImage(image);
 
         // save the record
         serviceRepository.save(service);

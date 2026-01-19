@@ -28,8 +28,9 @@ public class Service {
     private Boolean isActive = true;
 
     // FK's:
-//    @JoinColumn(name = "schedule_id")
-//    private Long scheduleId;
+    @JoinColumn(name = "image_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 
     @JsonIgnore // do not print the user details
     @ManyToOne(fetch = FetchType.LAZY) // do not fetch the user details when fetching a service

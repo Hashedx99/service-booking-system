@@ -26,18 +26,18 @@ public class ServiceService {
     // function to fetch the service by id
     private com.ga.project2.model.Service fetchServiceById(long serviceId) throws UserNotAuthorizedException {
         // fetch the service or throw exception
-        if (UserRoles.CUSTOMER == userService.getUser().getRole()) {
-            serviceRepository.getServicesByServiceIdAndUser_IdAndIsActiveTrue(serviceId, userService.getUser().getId())
+        if (UserRoles.SERVICE_PROVIDER == userService.getUser().getRole()) {
+            return serviceRepository.getServicesByServiceIdAndUser_IdAndIsActiveTrue(serviceId,
+                            userService.getUser().getId())
                     .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not " +
                             "found"));
         } else if (UserRoles.ADMIN == userService.getUser().getRole()) {
-            serviceRepository.getServicesByServiceIdAndIsActiveTrue(serviceId)
+            return serviceRepository.getServicesByServiceIdAndIsActiveTrue(serviceId)
                     .orElseThrow(() -> new InformationNotFoundException("Service with id: " + serviceId + " not " +
                             "found"));
         } else {
             throw new UserNotAuthorizedException("User not authorized to access this resource");
         }
-        return null;
     }
 
     // function to create a service
@@ -128,6 +128,10 @@ public class ServiceService {
 
     // function to delete a service by id
     public com.ga.project2.model.Service deleteService(Long serviceId) throws UserNotAuthorizedException {
+        if (UserRoles.ADMIN != userService.getUser().getRole()) {
+            throw new UserNotAuthorizedException("Only admins can delete services");
+        }
+
         // get the service
         var service = fetchServiceById(serviceId);
 

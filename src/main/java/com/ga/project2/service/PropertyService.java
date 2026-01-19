@@ -22,6 +22,7 @@ public class PropertyService {
     // --- CRUD Methods ---
 
     public Property saveProperty(Property property) {
+        property.setUser(userService.getUser());
         return propertyRepository.save(property);
     }
 

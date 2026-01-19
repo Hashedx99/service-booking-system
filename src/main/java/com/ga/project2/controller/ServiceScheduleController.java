@@ -4,8 +4,6 @@ import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.ServiceSchedule;
 import com.ga.project2.service.ServiceScheduleService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;

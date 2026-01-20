@@ -9,6 +9,7 @@ import com.ga.project2.mailing.EmailService;
 import com.ga.project2.model.Image;
 import com.ga.project2.model.SecureToken;
 import com.ga.project2.model.User;
+import com.ga.project2.model.UserProfile;
 import com.ga.project2.model.request.ImageModel;
 import com.ga.project2.model.request.LoginRequest;
 import com.ga.project2.model.response.LoginResponse;
@@ -208,6 +209,18 @@ public class UserService {
         // return the user or throw not found exceptions
         return userRepository.getUserById(id)
                 .orElseThrow(() -> new InformationNotFoundException("user not found"));
+    }
+
+    public User updateUserDetails(UserProfile userProfile) {
+        User user = getUser();
+        UserProfile existingProfile = user.getUserProfile();
+
+        existingProfile.setFirstName(userProfile.getFirstName());
+        existingProfile.setLastName(userProfile.getLastName());
+        existingProfile.setProfileDescription(userProfile.getProfileDescription());
+
+        user.setUserProfile(existingProfile);
+        return userRepository.save(user);
     }
 }
 

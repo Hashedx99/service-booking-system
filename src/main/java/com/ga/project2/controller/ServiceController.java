@@ -1,12 +1,14 @@
 package com.ga.project2.controller;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
+import com.ga.project2.model.Service;
 import com.ga.project2.model.request.CreateServiceRequest;
 import com.ga.project2.model.request.UpdateServiceRequest;
 import com.ga.project2.service.ServiceService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -16,119 +18,58 @@ public class ServiceController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<?> createService(
-            @ModelAttribute CreateServiceRequest request // @ModelAttribute allow us to upload the files
-    ) {
-        // try to create the service
-        try {
-            // create the service
-            var service = serviceService.createService(request);
-
-            // return the created service as the body
-            return ResponseEntity.status(HttpStatus.CREATED).body(service);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public Service createService(@ModelAttribute CreateServiceRequest request) {
+        return serviceService.createService(request);
     }
 
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateService(
-            @RequestBody UpdateServiceRequest request,
-            @PathVariable(name = "id") long serviceId
-    ) {
-        // try to update the service
-        try {
-            // update the service
-            var service = serviceService.updateService(serviceId, request);
+    public Service updateService(@RequestBody UpdateServiceRequest request,
+                                 @PathVariable(name = "id") long serviceId) throws UserNotAuthorizedException {
 
-            // return the updated service as the body
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(service);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        return serviceService.updateService(serviceId, request);
+
     }
 
     // READ ONE
     @GetMapping("/{id}")
-    public ResponseEntity<?> getServiceById(
-            @PathVariable(name = "id") long serviceId
-    ) {
-        // try to get the service
-        try {
-            // get the service
-            var service = serviceService.getServiceById(serviceId);
-
-            // return the fetched service as the body
-            return ResponseEntity.status(HttpStatus.OK).body(service);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public Service getServiceById(@PathVariable(name = "id") long serviceId) throws UserNotAuthorizedException {
+        return serviceService.getServiceById(serviceId);
     }
 
     // READ ALL
-    @GetMapping
-    public ResponseEntity<?> getAllServices() {
-        // try to get all the services for the authenticated user
-        try {
-            // get all the services
-            var services = serviceService.getAllServices();
+    @GetMapping("/my-services")
+    public List<Service> getAllMyServices() {
+        // get all the services
+        return serviceService.getAllMyServices();
+    }
 
-            // return the services as the body
-            return ResponseEntity.status(HttpStatus.OK).body(services);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @GetMapping
+    public List<Service> getAllActiveServices() {
+        // get all the active services
+        return serviceService.getAllServices();
     }
 
     // READ BY USER (NESTED RESOURCE)
     @GetMapping("/users/{userId}")
-    public ResponseEntity<?> getServicesByUserId(
-            @PathVariable Long userId
-    ) {
-        try {
-            // get the user services
-            var services = serviceService.getServicesByUserId(userId);
-
-            // return the user services
-            return ResponseEntity.status(HttpStatus.OK).body(services);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public List<Service> getServicesByUserId(@PathVariable Long userId) {
+        // get the user services
+        return serviceService.getServicesByUserId(userId);
     }
 
     // HARD DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteService(
-            @PathVariable(name = "id") long serviceId
-    ) {
+    public Service deleteService(@PathVariable(name = "id") long serviceId) throws UserNotAuthorizedException {
         // try to delete a service
-        try {
-            // delete the service
-            var service = serviceService.deleteService(serviceId);
+        return serviceService.deleteService(serviceId);
 
-            // return the deleted service as the body
-            return ResponseEntity.status(HttpStatus.OK).body(service);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
     }
 
     // SOFT DELETE (STATE CHANGE)
     @PatchMapping("/{id}")
-    public ResponseEntity<?> deactivateService(
-            @PathVariable(name = "id") Long serviceId
-    ) {
-        // try to delete a service
-        try {
-            // delete the service
-            var service = serviceService.deactivateService(serviceId);
-
-            // return the deleted service as the body
-            return ResponseEntity.status(HttpStatus.OK).body(service);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public Service deactivateService(@PathVariable(name = "id") Long serviceId) throws UserNotAuthorizedException {
+        // delete the service
+        return serviceService.deactivateService(serviceId);
     }
 
 }

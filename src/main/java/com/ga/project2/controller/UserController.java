@@ -1,6 +1,7 @@
 package com.ga.project2.controller;
 
 import com.ga.project2.model.User;
+import com.ga.project2.model.UserProfile;
 import com.ga.project2.model.request.ChangePasswordRequest;
 import com.ga.project2.model.request.ImageModel;
 import com.ga.project2.model.request.LoginRequest;
@@ -61,5 +62,11 @@ public class UserController {
     public User setImage(ImageModel image){
         System.out.println("calling set image in controller ========>");
         return userService.setUserImage(image);
+    }
+
+    @PatchMapping("/update")
+    public User updateUserDetails(@RequestBody UserProfile userProfile) {
+        System.out.println("calling update user details in controller ========>");
+        return userService.updateUserDetails(userProfile);
     }
 }

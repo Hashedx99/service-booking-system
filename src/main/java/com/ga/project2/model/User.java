@@ -45,4 +45,6 @@ public class User {
     @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
     private List<Service> services;
 
+    private UserRoles role = UserRoles.CUSTOMER;
+
 }

@@ -5,7 +5,7 @@ import com.ga.project2.service.PropertyBookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ga.project2.model.request.CreatePropertyBooking;
-import com.ga.project2.model.request.UpdatePropertyBookingDate;
+import com.ga.project2.model.request.UpdateBookingDate;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class PropertyBookingController {
 
     // Update booking date
     @PutMapping("/date")
-    public ResponseEntity<PropertyBooking> updateBookingDate(@RequestBody UpdatePropertyBookingDate model) {
+    public ResponseEntity<PropertyBooking> updateBookingDate(@RequestBody UpdateBookingDate model) {
         PropertyBooking updated = propertyBookingService.updateBookingDate(model.getId(), model.getNewDate());
         return ResponseEntity.ok(updated);
     }

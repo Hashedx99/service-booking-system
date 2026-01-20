@@ -11,8 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Property {
@@ -24,7 +22,6 @@ public class Property {
     private String name;
     private String description;
     private Double price;
-    private String scheduleId;
     private boolean active;
 
     public boolean isActive() {
@@ -49,4 +46,71 @@ public class Property {
     @JsonIgnore
     private List<PropertyBooking> bookings;
 
+    @JoinColumn(name = "image_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
+
+    public Long getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<PropertySchedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<PropertySchedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    public List<PropertyBooking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<PropertyBooking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }

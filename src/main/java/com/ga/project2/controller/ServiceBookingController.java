@@ -1,6 +1,8 @@
 package com.ga.project2.controller;
 
 import com.ga.project2.model.ServiceBooking;
+import com.ga.project2.model.request.CreateServiceBookingRequest;
+import com.ga.project2.model.request.UpdateBookingDate;
 import com.ga.project2.service.ServiceBookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +22,12 @@ public class ServiceBookingController {
 
     @PostMapping
     public ResponseEntity<ServiceBooking> createBooking(
-            @RequestParam Instant bookingDate,
-            @RequestParam Long serviceId,
-            @RequestParam Long providerId,
-            @RequestParam Long userId) {
-        ServiceBooking booking = serviceBookingService.createBooking(bookingDate, serviceId, providerId, userId);
+        @RequestBody CreateServiceBookingRequest model) {
+        ServiceBooking booking = serviceBookingService.createBooking(
+                model.getBookingDate()
+                ,model.getServiceId()
+                ,model.getProviderId()
+                ,model.getUserId());
         return ResponseEntity.ok(booking);
     }
 
@@ -54,11 +57,9 @@ public class ServiceBookingController {
         return ResponseEntity.ok(serviceBookingService.getBookingsByService(serviceId));
     }
 
-    @PutMapping("/{id}/date")
-    public ResponseEntity<ServiceBooking> updateBookingDate(
-            @PathVariable Long id,
-            @RequestParam Instant newDate) {
-        ServiceBooking updated = serviceBookingService.updateBookingDate(id, newDate);
+    @PutMapping("/date")
+    public ResponseEntity<ServiceBooking> updateBookingDate(@RequestBody UpdateBookingDate model) {
+        ServiceBooking updated = serviceBookingService.updateBookingDate(model.getId(), Instant.from(model.getNewDate().atStartOfDay()));
         return ResponseEntity.ok(updated);
     }
 

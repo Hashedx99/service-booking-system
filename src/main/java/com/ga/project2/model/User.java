@@ -19,6 +19,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     private String userName;
     @Column(unique = true)
     private String emailAddress;

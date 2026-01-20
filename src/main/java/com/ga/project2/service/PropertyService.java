@@ -21,7 +21,10 @@ public class PropertyService {
 
     // --- CRUD Methods ---
 
-    public Property saveProperty(Property property) {
+    public Property saveProperty(Property property) throws UserNotAuthorizedException {
+        if (UserRoles.CUSTOMER == userService.getUser().getRole()) {
+            throw new UserNotAuthorizedException("Customers are not authorized to create properties");
+        }
         property.setUser(userService.getUser());
         return propertyRepository.save(property);
     }
@@ -44,7 +47,6 @@ public class PropertyService {
                         existing.setPrice(updatedProperty.getPrice());
                         existing.setScheduleId(updatedProperty.getScheduleId());
                         existing.setActive(updatedProperty.isActive());
-                        existing.setUser(updatedProperty.getUser());
                         return propertyRepository.save(existing);
                     })
                     .orElseThrow(() -> new InformationNotFoundException("Property not found with id " + id));
@@ -56,7 +58,6 @@ public class PropertyService {
                         existing.setPrice(updatedProperty.getPrice());
                         existing.setScheduleId(updatedProperty.getScheduleId());
                         existing.setActive(updatedProperty.isActive());
-                        existing.setUser(updatedProperty.getUser());
                         return propertyRepository.save(existing);
                     })
                     .orElseThrow(() -> new InformationNotFoundException("Property not found with id " + id));

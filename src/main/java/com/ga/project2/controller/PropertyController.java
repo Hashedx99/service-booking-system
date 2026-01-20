@@ -38,7 +38,7 @@ public class PropertyController {
 
     // Create new property
     @PostMapping
-    public Property createProperty(@RequestBody Property property) {
+    public Property createProperty(@RequestBody Property property) throws UserNotAuthorizedException {
         return propertyService.saveProperty(property);
     }
 

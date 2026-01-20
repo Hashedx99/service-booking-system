@@ -86,7 +86,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotAuthorizedException.class)
     protected ResponseEntity<Object> handleUserNotAuthorized(UserNotAuthorizedException ex) {
-        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

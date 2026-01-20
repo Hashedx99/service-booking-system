@@ -58,6 +58,12 @@ public class UserController {
         System.out.println("calling soft delete user in user controller ========>");
         userService.softDelete();
     }
+
+    @DeleteMapping("/delete-user")
+    public void softDeleteUser(@RequestParam Long userId){
+        userService.deleteUserById(userId);
+    }
+
     @PutMapping("/set-image")
     public User setImage(ImageModel image){
         System.out.println("calling set image in controller ========>");

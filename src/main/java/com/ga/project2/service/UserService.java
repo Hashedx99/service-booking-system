@@ -6,10 +6,7 @@ import com.ga.project2.exception.MissingFieldException;
 import com.ga.project2.mailing.AccountPasswordResetEmailContext;
 import com.ga.project2.mailing.AccountVerificationEmailContext;
 import com.ga.project2.mailing.EmailService;
-import com.ga.project2.model.Image;
-import com.ga.project2.model.SecureToken;
-import com.ga.project2.model.User;
-import com.ga.project2.model.UserProfile;
+import com.ga.project2.model.*;
 import com.ga.project2.model.request.ImageModel;
 import com.ga.project2.model.request.LoginRequest;
 import com.ga.project2.model.response.LoginResponse;
@@ -191,6 +188,19 @@ public class UserService {
                 SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         User user = myUserDetails.getUser();
+        user.setActivated(false);
+        user.setAccountVerified(false);
+        userRepository.save(user);
+    }
+
+    public void deleteUserById(Long id) {
+        if (UserRoles.ADMIN != getUser().getRole()) {
+            throw new InformationNotFoundException("Only admin can delete users");
+        }
+        User user = getUserById(id);
+        if (user == null) {
+            throw new InformationNotFoundException("User not found with id: " + id);
+        }
         user.setActivated(false);
         user.setAccountVerified(false);
         userRepository.save(user);

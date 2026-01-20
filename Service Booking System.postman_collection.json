@@ -1,0 +1,1246 @@
+{
+  "info": {
+    "_postman_id": "80d2c4e1-8cdb-4dba-9629-f019b2481530",
+    "name": "Service Booking System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50802721",
+    "_collection_link": "https://go.postman.co/collection/50802721-80d2c4e1-8cdb-4dba-9629-f019b2481530?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "User Requests",
+      "item": [
+        {
+          "name": "Register - Success",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"userName\": \"user1\", \"emailAddress\": \"user1@example.com\", \"password\": \"123\", \"userProfile\": { \"firstName\": \"User\", \"lastName\": \"One\" }, \"accountVerified\": true, \"isActivated\": true }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Missing Fields",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"userName\": \"\", \"emailAddress\": \"\", \"password\": \"\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Duplicate Email",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"userName\": \"user1\", \"emailAddress\": \"user1@example.com\", \"password\": \"123\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Invalid Data Type",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"userName\": 123, \"emailAddress\": true, \"password\": [] }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();\r",
+                  "pm.collectionVariables.set(\"jwt_token\", jsonData.message);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"user1@example.com\", \"password\": \"123\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Wrong Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"user1@example.com\", \"password\": \"wrong\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - User Not Found",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"notfound@example.com\", \"password\": \"123\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Invalid HTTP Method",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete User - Own account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete User - Success",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/delete-user?userId=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "delete-user"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete User - User Not Found",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/delete-user?userId=9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "delete-user"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "9999"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete User - Missing userId",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/delete-user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "delete-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete User - Invalid userId Type",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/delete-user?userId=abc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "delete-user"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "abc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete User - Unauthorized",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalidtoken"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/delete-user?userId=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                "delete-user"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Service Requests",
+      "item": [
+        {
+          "name": "CreateService - Success",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "serviceName",
+                  "value": "Haircut",
+                  "type": "text"
+                },
+                {
+                  "key": "serviceDescription",
+                  "value": "Basic haircut",
+                  "type": "text"
+                },
+                {
+                  "key": "servicePrice",
+                  "value": "15",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateService - Missing Fields",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "serviceName",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateService - Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalidtoken"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "serviceName",
+                  "value": "Haircut",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetServiceById - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetServiceById - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateService - Success",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"serviceName\": \"Updated\", \"serviceDescription\": \"Updated desc\", \"servicePrice\": \"20\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services/1/update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                "1",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateService - Invalid Data",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"serviceName\": \"\", \"serviceDescription\": \"\", \"servicePrice\": \"-1\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services/1/update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                "1",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteService - Success",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services/1/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                "1",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteService - Not Found",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services/9999/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                "9999",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllServices - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllServices - Invalid HTTP Method",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Property Requests",
+      "item": [
+        {
+          "name": "GetAllProperties - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllProperties - Unauthorized",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalidtoken"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetActiveProperties - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetPropertyById - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetPropertyById - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateProperty - Success",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Sample Name\", \"description\": \"Sample Description\", \"price\": 99.99, \"active\": true, \"user\": { \"id\": \"3\" } }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateProperty - Missing User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Sample Name\", \"description\": \"Sample Description\", \"price\": 99.99, \"active\": true }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateProperty - Invalid Data",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"\", \"description\": \"\", \"price\": -1, \"active\": true, \"user\": { \"id\": \"3\" } }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateProperty - Success",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Updated Name\", \"description\": \"Updated Description\", \"price\": 120.00, \"active\": false, \"user\": { \"id\": \"3\" } }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateProperty - Not Found",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Updated Name\", \"description\": \"Updated Description\", \"price\": 120.00, \"active\": false, \"user\": { \"id\": \"3\" } }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SoftDeleteProperty - Success",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"active\": false }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "properties",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Property Booking Requests",
+      "item": [
+        {
+          "name": "GetAllBookings - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetActiveBookings - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBooking - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBooking - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBookingByPropertyId - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/property/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "property",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateBooking - Success",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"bookingDate\": \"2026-01-19\", \"userId\": 3, \"propertyId\": 2 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateBooking - Missing Fields",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"bookingDate\": \"\", \"userId\": \"\", \"propertyId\": \"\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateBookingDate - Success",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"id\": 1, \"newDate\": \"2026-01-20\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "date"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateBookingDate - Not Found",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"id\": 9999, \"newDate\": \"2026-01-20\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "date"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Service Booking Requests",
+      "item": [
+        {
+          "name": "GetBooking - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBooking - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateBooking - Success",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"bookingDate\": \"2026-01-19T10:00:00Z\", \"serviceId\": 1, \"providerId\": 1, \"userId\": 3 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CreateBooking - Missing Fields",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"bookingDate\": \"\", \"serviceId\": \"\", \"providerId\": \"\", \"userId\": \"\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBookingsByUser - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings/user/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings",
+                "user",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBookingsByProvider - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings/provider/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings",
+                "provider",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetBookingsByService - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings/service/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings",
+                "service",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllBookings - Success",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "jwt_token",
+      "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

@@ -14,7 +14,6 @@ import com.ga.project2.repository.ImageRepository;
 import com.ga.project2.repository.UserRepository;
 import com.ga.project2.security.JWTUtils;
 import com.ga.project2.security.MyUserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -30,35 +30,28 @@ public class UserService {
 
     @Value("${site.base.url.https}")
     private String baseurl;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
-    private MyUserDetails myUserDetails;
-
-    @Autowired
-    EmailService emailService;
-
-    @Autowired
-    ImageServiceImpl imageService;
-
-    @Autowired
-    ImageRepository imageRepository;
-
-    @Autowired
-    private SecureTokenService secureTokenService;
-//    @Autowired
-//    private SecureTokenService secureTokenService;
+    private final SecureTokenService secureTokenService;
+    final EmailService emailService;
+    final ImageServiceImpl imageService;
+    final ImageRepository imageRepository;
 
 
     public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, JWTUtils jwtUtils,
-                       @Lazy AuthenticationManager authenticationManager,
-                       @Lazy MyUserDetails myUserDetails) {
+                       @Lazy AuthenticationManager authenticationManager, EmailService emailService,
+                       ImageServiceImpl imageService, ImageRepository imageRepository,
+                       SecureTokenService secureTokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        this.myUserDetails = myUserDetails;
+        this.emailService = emailService;
+        this.imageService = imageService;
+        this.imageRepository = imageRepository;
+        this.secureTokenService = secureTokenService;
     }
 
     public User createUser(User userObj) {
@@ -83,11 +76,11 @@ public class UserService {
         }
 
     }
-    public User setUserImage(ImageModel image){
+
+    public User setUserImage(ImageModel image) {
         User user = getUser();
         System.out.println("fouuuuuuuund===" + user);
-        String imgUrl = imageService.uploadImage(image,"usersImages");
-        //System.out.println(imgUrl);
+        String imgUrl = imageService.uploadImage(image, "usersImages");
         Image savedImage = imageRepository.findByUrl(imgUrl);
         user.getUserProfile().setImage(savedImage);
 
@@ -108,7 +101,7 @@ public class UserService {
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest
                             .getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
             final String JWT = jwtUtils.generateJwtToken(myUserDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
         } catch (Exception e) {
@@ -149,7 +142,6 @@ public class UserService {
         User user = secureToken.getUser();
         user.setPassword(passwordEncoder.encode(userObj.getPassword()));
         userRepository.save(user);
-        //secureTokenService.removeToken(secureToken);
 
     }
 
@@ -184,8 +176,7 @@ public class UserService {
 
 
     public void softDelete() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         User user = myUserDetails.getUser();
         user.setActivated(false);
@@ -217,8 +208,7 @@ public class UserService {
 
     public User getUserById(Long id) {
         // return the user or throw not found exceptions
-        return userRepository.getUserById(id)
-                .orElseThrow(() -> new InformationNotFoundException("user not found"));
+        return userRepository.getUserById(id).orElseThrow(() -> new InformationNotFoundException("user not found"));
     }
 
     public User updateUserDetails(UserProfile userProfile) {

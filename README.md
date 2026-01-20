@@ -25,12 +25,29 @@ application. The database schema was designed using an ERD, and user stories gui
 Continuous integration was maintained via GitHub, and deliverables were tracked using JIRA.
 
 ## Major Hurdles & Unsolved Problems
-* Error Handling: Ensuring consistent error responses across all endpoints was challenging, especially for 
+
+* Error Handling: Ensuring consistent error responses across all endpoints was challenging, especially for
   authorization and validation errors.
-* User Association: Guaranteeing that entities like Property and Service always have a non-null User reference 
+* User Association: Guaranteeing that entities like Property and Service always have a non-null User reference
   required careful validation and service logic.
 
 ## Documentation Links
+
 * ERD Diagram: [ERD Diagram](https://i.imgur.com/pekI9DI.png)
 * Planning & Scope: [JIRA Board](https://hshabx99.atlassian.net/jira/software/projects/SRS/boards/1)
 * API Documentation: [Postman Collection]()
+
+## Setup Instructions
+
+* Prerequisites:
+    - Java 17
+    - Maven
+    - PostgreSQL Database
+* Steps:
+* create a PostgreSQL database and update the `run configuration` with your database credentials.
+* use these environment variables
+  - `API_CLOUDNAME=daxrxuzjp;API_KEY=rkqhidwgzxrfmywb;API_SECRET=0vS_yL7fPdfqDYkwUCsmYFIy0Z0;
+  CLOUDINARY_KEY=125674219796242;DB_PASSWORD=12345678;DB_URL=jdbc:postgresql://localhost:5432/service-booking-system;DB_USERNAME=postgres;MY_EMAIL=b.mojtabaalilol@gmail.com;JWT_SECRET=C6UlILsE6GJwNqwCTkkvJj9O653yJUoteWMLfYyrc3vaGrrTOrJFAUD1wEBnnposzcQl`
+  - change the db values according to your local database setup.
+* build the project using Maven: `mvn clean install`
+* run the application

@@ -1,5 +1,7 @@
 package com.ga.project2.service;
 
+import com.ga.project2.exception.InformationNotFoundException;
+import com.ga.project2.exception.MissingFieldException;
 import com.ga.project2.model.ServiceBooking;
 import com.ga.project2.repository.ServiceBookingRepository;
 import jakarta.transaction.Transactional;
@@ -19,6 +21,10 @@ public class ServiceBookingService {
 
     // Create booking
     public ServiceBooking createBooking(Instant bookingDate, Long serviceId, Long providerId, Long userId) {
+        if (bookingDate == null || serviceId == null || providerId == null || userId == null ||
+                bookingDate.toString().isEmpty() || serviceId.toString().isEmpty() || providerId.toString().isEmpty() || userId.toString().isEmpty()) {
+            throw new MissingFieldException("Booking date, service ID, provider ID, and user ID must not be null");
+        }
         ServiceBooking booking = new ServiceBooking();
         booking.setBookingDate(bookingDate);
         booking.setServiceId(serviceId);
@@ -31,7 +37,7 @@ public class ServiceBookingService {
     // Get booking by id
     public ServiceBooking getBooking(Long bookingId) {
         return serviceBookingRepository.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found with id: " + bookingId));
+                .orElseThrow(() -> new InformationNotFoundException("Booking not found with id: " + bookingId));
     }
 
     // Get all bookings

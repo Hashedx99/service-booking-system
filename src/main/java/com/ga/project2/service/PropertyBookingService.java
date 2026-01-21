@@ -1,5 +1,7 @@
 package com.ga.project2.service;
 
+import com.ga.project2.exception.InformationNotFoundException;
+import com.ga.project2.exception.MissingFieldException;
 import com.ga.project2.model.Property;
 import com.ga.project2.model.PropertyBooking;
 import com.ga.project2.repository.PropertyBookingRepository;
@@ -24,6 +26,9 @@ public class PropertyBookingService {
     }
 
     public PropertyBooking createBooking(LocalDate bookingDate, Long userId, Long propertyId) {
+        if (bookingDate == null || userId == null || propertyId == null) {
+            throw new MissingFieldException("Booking date, user ID, and property ID must not be null");
+        }
         Property property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new IllegalArgumentException("Property not found"));
 
@@ -46,7 +51,7 @@ public class PropertyBookingService {
     // Update booking date
     public PropertyBooking updateBookingDate(Long bookingId, LocalDate newDate) {
         PropertyBooking booking = getBooking(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+                .orElseThrow(() -> new InformationNotFoundException("Booking with id " + bookingId + " not found"));
         booking.setBookingDate(newDate);
         return propertyBookingRepository.save(booking);
     }

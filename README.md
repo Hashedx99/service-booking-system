@@ -24,12 +24,31 @@ repositories, and models. Security was implemented using JWT tokens, and user ro
 application. The database schema was designed using an ERD, and user stories guided the development of features.
 Continuous integration was maintained via GitHub, and deliverables were tracked using JIRA.
 
+## API Endpoints
+
+| Endpoint                              | HTTP Method | Description                          |
+|---------------------------------------|-------------|--------------------------------------|
+| `/auth/users/register`                | POST        | Register a new user                 |
+| `/auth/users/login`                   | POST        | Authenticate user and get JWT token |
+| `/api/properties`                     | GET         | Get all properties                  |
+| `/api/properties/{id}`                | GET         | Get property by ID                  |
+| `/api/property-bookings`              | POST        | Create a new property booking       |
+| `/api/service-bookings`               | POST        | Create a new service booking        |
+
+For a complete list of endpoints, refer to the [Postman Collection](https://www.postman.com/workspace/Project2~ae428d20-95fd-432b-bcf8-a91bfa3f0399/collection/50802721-80d2c4e1-8cdb-4dba-9629-f019b2481530).
+
+
 ## Major Hurdles & Unsolved Problems
 
 * Error Handling: Ensuring consistent error responses across all endpoints was challenging, especially for
   authorization and validation errors.
 * User Association: Guaranteeing that entities like Property and Service always have a non-null User reference
   required careful validation and service logic.
+
+## Known Issues
+
+* Some endpoints may not handle edge cases for invalid data types.
+* The application currently lacks rate-limiting for API requests.
 
 ## Documentation Links
 
@@ -54,3 +73,16 @@ Continuous integration was maintained via GitHub, and deliverables were tracked 
 * build the project using Maven: `mvn clean install`
 * run the application
 * you can contact me for run configuration setup if needed.
+
+## Testing Instructions
+
+1. Import the Postman collection linked above.
+2. Set up the environment variable `baseUrl` in Postman.
+3. Run the requests in the collection to test the API.
+
+## Acknowledgments
+
+* Spring Boot documentation
+* Postman for API testing
+* Cloudinary for media storage
+* Thymeleaf for email templates

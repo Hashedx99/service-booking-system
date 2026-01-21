@@ -2,7 +2,6 @@ package com.ga.project2.service;
 
 import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.UserRoles;
-import com.ga.project2.model.Image;
 import com.ga.project2.model.request.CreateServiceRequest;
 import com.ga.project2.model.request.ImageModel;
 import com.ga.project2.model.request.UpdateServiceRequest;

@@ -40,7 +40,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (userRepository.existsByEmailAddressAndIsActivatedTrue("admin@demo.com")) {
             return;
         }
@@ -49,7 +49,7 @@ public class DataSeeder implements CommandLineRunner {
 
     private void seedUsersAndData() {
         // Admin
-        User admin = createUser("admin", "admin@demo.com", UserRoles.ADMIN);
+        createUser("admin", "admin@demo.com", UserRoles.ADMIN);
 
         // Service Provider
         User serviceProvider = createUser("provider", "provider@demo.com", UserRoles.SERVICE_PROVIDER);

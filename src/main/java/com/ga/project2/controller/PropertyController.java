@@ -2,18 +2,14 @@ package com.ga.project2.controller;
 
 import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.Property;
-import com.ga.project2.model.User;
-import com.ga.project2.model.UserRoles;
+
 import com.ga.project2.model.request.CreatePropertyRequest;
 import com.ga.project2.service.PropertyService;
 import com.ga.project2.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/properties")
@@ -21,7 +17,6 @@ import java.util.Optional;
 public class PropertyController {
 
     private final PropertyService propertyService;
-    private final UserService userService;
 
     // --- CRUD Endpoints ---
 

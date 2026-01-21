@@ -1,5 +1,6 @@
 package com.ga.project2.controller;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.User;
 import com.ga.project2.model.UserProfile;
 import com.ga.project2.model.request.ChangePasswordRequest;
@@ -60,7 +61,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-user")
-    public void softDeleteUser(@RequestParam Long userId){
+    public void softDeleteUser(@RequestParam Long userId) throws UserNotAuthorizedException {
         userService.deleteUserById(userId);
     }
 

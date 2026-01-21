@@ -18,11 +18,13 @@ import java.util.Optional;
 public class PropertyBookingService {
     private final PropertyBookingRepository propertyBookingRepository;
     private final PropertyRepository propertyRepository;
+    private final UserService userService;
 
 
-    public PropertyBookingService(PropertyBookingRepository propertyBookingRepository, PropertyRepository propertyRepository) {
+    public PropertyBookingService(PropertyBookingRepository propertyBookingRepository, PropertyRepository propertyRepository, UserService userService) {
         this.propertyBookingRepository = propertyBookingRepository;
         this.propertyRepository = propertyRepository;
+        this.userService = userService;
     }
 
     public PropertyBooking createBooking(LocalDate bookingDate, Long userId, Long propertyId) {
@@ -59,7 +61,7 @@ public class PropertyBookingService {
     // Soft delete
     public void softDeleteBooking(Long id) {
         PropertyBooking booking = getBooking(id)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+                .orElseThrow(() -> new InformationNotFoundException("Booking with id " + id + " not found"));
         booking.setActive(false);
         propertyBookingRepository.save(booking);
     }
@@ -72,9 +74,15 @@ public class PropertyBookingService {
     public List<PropertyBooking> getBookingsByPropertyId(Long propertyId) {
         List<PropertyBooking> bookings = propertyBookingRepository.findByProperty_propertyId(propertyId);
         if (bookings.isEmpty()) {
-            throw new IllegalArgumentException("No bookings found for property id: " + propertyId);
+            throw new InformationNotFoundException("No bookings found for property id: " + propertyId);
         }
         return bookings;
     }
 
+    public PropertyBooking cancelBooking(Long id) {
+        PropertyBooking booking = propertyBookingRepository.getPropertyBookingByBookingIdAndUserId(id, userService.getUser().getId())
+                .orElseThrow(() -> new InformationNotFoundException("Booking with id " + id + " not found for the current user"));
+        booking.setActive(false);
+        return propertyBookingRepository.save(booking);
+    }
 }

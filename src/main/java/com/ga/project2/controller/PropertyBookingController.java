@@ -55,6 +55,11 @@ public class PropertyBookingController {
         propertyBookingService.softDeleteBooking(id);
     }
 
+    @PostMapping("/cancel/{id}")
+    public PropertyBooking cancelBooking(@PathVariable Long id) {
+        return propertyBookingService.cancelBooking(id);
+    }
+
     // Get only active bookings
     @GetMapping("/active")
     public List<PropertyBooking> getActiveBookings() {

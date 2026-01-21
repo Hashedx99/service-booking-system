@@ -3,6 +3,7 @@ package com.ga.project2.service;
 import com.ga.project2.exception.InformationExistException;
 import com.ga.project2.exception.InformationNotFoundException;
 import com.ga.project2.exception.MissingFieldException;
+import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.mailing.AccountPasswordResetEmailContext;
 import com.ga.project2.mailing.AccountVerificationEmailContext;
 import com.ga.project2.mailing.EmailService;
@@ -54,6 +55,10 @@ public class UserService {
     }
 
     public User createUser(User userObj) {
+        if (userObj.getEmailAddress() == null || userObj.getUserName() == null || userObj.getPassword() == null
+                || userObj.getEmailAddress().isEmpty() || userObj.getUserName().isEmpty() || userObj.getPassword().isEmpty()) {
+            throw new MissingFieldException("Email, username and password must not be null");
+        }
         System.out.println("service calling create user =======>");
         User existingUser = userRepository.findUserByEmailAddress(userObj.getEmailAddress());
         if (existingUser != null) {
@@ -95,7 +100,7 @@ public class UserService {
 
 
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
-         try {
+        try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest
                             .getEmail(), loginRequest.getPassword()));
@@ -183,17 +188,20 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteUserById(Long id) {
-        if (UserRoles.ADMIN != getUser().getRole()) {
-            throw new InformationNotFoundException("Only admin can delete users");
+    public void deleteUserById(Long id) throws UserNotAuthorizedException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        User user = myUserDetails.getUser();
+        if (UserRoles.ADMIN != user.getRole()) {
+            throw new UserNotAuthorizedException("Only admin can delete users");
         }
-        User user = getUserById(id);
-        if (user == null) {
+        User userToBeDeleted = getUserById(id);
+        if (userToBeDeleted == null) {
             throw new InformationNotFoundException("User not found with id: " + id);
         }
-        user.setActivated(false);
-        user.setAccountVerified(false);
-        userRepository.save(user);
+        userToBeDeleted.setActivated(false);
+        userToBeDeleted.setAccountVerified(false);
+        userRepository.save(userToBeDeleted);
     }
 
     // function to get the user by the email from the security context holder

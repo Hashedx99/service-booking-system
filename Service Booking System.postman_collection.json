@@ -1544,6 +1544,35 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Cancel Booking- Success",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/property-bookings/cancel/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "property-bookings",
+                "cancel",
+                "1"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -1799,6 +1828,35 @@
               "path": [
                 "api",
                 "service-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking- Success",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-bookings/cancel/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "service-bookings",
+                "cancel",
+                "1"
               ]
             }
           },

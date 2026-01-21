@@ -33,7 +33,7 @@ public class ServiceController {
 
     // READ ONE
     @GetMapping("/{id}")
-    public Service getServiceById(@PathVariable(name = "id") long serviceId) throws UserNotAuthorizedException {
+    public Service getServiceById(@PathVariable(name = "id") long serviceId) {
         return serviceService.getServiceById(serviceId);
     }
 

@@ -21,71 +21,67 @@ public class ServiceBookingController {
     }
 
     @PostMapping
-    public ResponseEntity<ServiceBooking> createBooking(
+    public ServiceBooking createBooking(
         @RequestBody CreateServiceBookingRequest model) {
-        ServiceBooking booking = serviceBookingService.createBooking(
+        return serviceBookingService.createBooking(
                 model.getBookingDate()
                 ,model.getServiceId()
                 ,model.getProviderId()
                 ,model.getUserId());
-        return ResponseEntity.ok(booking);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServiceBooking> getBooking(@PathVariable Long id) {
-        ServiceBooking booking = serviceBookingService.getBooking(id);
-        return ResponseEntity.ok(booking);
+    public ServiceBooking getBooking(@PathVariable Long id) {
+        return serviceBookingService.getBooking(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<ServiceBooking>> getAllBookings() {
-        return ResponseEntity.ok(serviceBookingService.getAllBookings());
+    public List<ServiceBooking> getAllBookings() {
+        return serviceBookingService.getAllBookings();
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ServiceBooking>> getBookingsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(serviceBookingService.getBookingsByUser(userId));
+    public List<ServiceBooking> getBookingsByUser(@PathVariable Long userId) {
+        return serviceBookingService.getBookingsByUser(userId);
     }
 
     @GetMapping("/provider/{providerId}")
-    public ResponseEntity<List<ServiceBooking>> getBookingsByProvider(@PathVariable Long providerId) {
-        return ResponseEntity.ok(serviceBookingService.getBookingsByProvider(providerId));
+    public List<ServiceBooking> getBookingsByProvider(@PathVariable Long providerId) {
+        return serviceBookingService.getBookingsByProvider(providerId);
     }
 
     @GetMapping("/service/{serviceId}")
-    public ResponseEntity<List<ServiceBooking>> getBookingsByService(@PathVariable Long serviceId) {
-        return ResponseEntity.ok(serviceBookingService.getBookingsByService(serviceId));
+    public List<ServiceBooking> getBookingsByService(@PathVariable Long serviceId) {
+        return serviceBookingService.getBookingsByService(serviceId);
     }
 
     @PutMapping("/date")
-    public ResponseEntity<ServiceBooking> updateBookingDate(@RequestBody UpdateBookingDate model) {
-        ServiceBooking updated = serviceBookingService.updateBookingDate(model.getId(), Instant.from(model.getNewDate().atStartOfDay()));
-        return ResponseEntity.ok(updated);
+    public ServiceBooking updateBookingDate(@RequestBody UpdateBookingDate model) {
+        return serviceBookingService.updateBookingDate(model.getId(), Instant.from(model.getNewDate().atStartOfDay()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> softDeleteBooking(@PathVariable Long id) {
+    public void softDeleteBooking(@PathVariable Long id) {
         serviceBookingService.softDeleteBooking(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<ServiceBooking>> getActiveBookings() {
-        return ResponseEntity.ok(serviceBookingService.getActiveBookings());
+    public List<ServiceBooking> getActiveBookings() {
+        return serviceBookingService.getActiveBookings();
     }
 
     @GetMapping("/active/user/{userId}")
-    public ResponseEntity<List<ServiceBooking>> getActiveBookingsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(serviceBookingService.getActiveBookingsByUser(userId));
+    public List<ServiceBooking> getActiveBookingsByUser(@PathVariable Long userId) {
+        return serviceBookingService.getActiveBookingsByUser(userId);
     }
 
     @GetMapping("/active/provider/{providerId}")
-    public ResponseEntity<List<ServiceBooking>> getActiveBookingsByProvider(@PathVariable Long providerId) {
-        return ResponseEntity.ok(serviceBookingService.getActiveBookingsByProvider(providerId));
+    public List<ServiceBooking> getActiveBookingsByProvider(@PathVariable Long providerId) {
+        return serviceBookingService.getActiveBookingsByProvider(providerId);
     }
 
     @GetMapping("/active/service/{serviceId}")
-    public ResponseEntity<List<ServiceBooking>> getActiveBookingsByService(@PathVariable Long serviceId) {
-        return ResponseEntity.ok(serviceBookingService.getActiveBookingsByService(serviceId));
+    public List<ServiceBooking> getActiveBookingsByService(@PathVariable Long serviceId) {
+        return serviceBookingService.getActiveBookingsByService(serviceId);
     }
 }

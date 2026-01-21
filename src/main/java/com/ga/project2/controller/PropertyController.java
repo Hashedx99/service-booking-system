@@ -5,7 +5,6 @@ import com.ga.project2.model.Property;
 
 import com.ga.project2.model.request.CreatePropertyRequest;
 import com.ga.project2.service.PropertyService;
-import com.ga.project2.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

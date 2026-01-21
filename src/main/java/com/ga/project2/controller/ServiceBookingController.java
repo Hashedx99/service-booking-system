@@ -83,4 +83,9 @@ public class ServiceBookingController {
     public List<ServiceBooking> getActiveBookingsByService(@PathVariable Long serviceId) {
         return serviceBookingService.getActiveBookingsByService(serviceId);
     }
+
+    @PostMapping("/cancel/{id}")
+    public ServiceBooking cancelBooking(@PathVariable Long id) {
+        return serviceBookingService.cancelBooking(id);
+    }
 }

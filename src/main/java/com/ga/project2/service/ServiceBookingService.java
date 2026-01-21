@@ -14,9 +14,11 @@ import java.util.List;
 @Transactional
 public class ServiceBookingService {
     private final ServiceBookingRepository serviceBookingRepository;
+    private final UserService userService;
 
-    public ServiceBookingService(ServiceBookingRepository serviceBookingRepository) {
+    public ServiceBookingService(ServiceBookingRepository serviceBookingRepository, UserService userService) {
         this.serviceBookingRepository = serviceBookingRepository;
+        this.userService = userService;
     }
 
     // Create booking
@@ -94,4 +96,11 @@ public class ServiceBookingService {
         return serviceBookingRepository.findByServiceIdAndActiveTrue(serviceId);
     }
 
+
+    public ServiceBooking cancelBooking(Long id) {
+        ServiceBooking booking = serviceBookingRepository.findServiceBookingByBookingIdAndUserId(id,
+                userService.getUser().getId()).orElseThrow(() -> new InformationNotFoundException("Booking with id " + id + " not found for the current user"));
+        booking.setActive(false);
+        return serviceBookingRepository.save(booking);
+    }
 }

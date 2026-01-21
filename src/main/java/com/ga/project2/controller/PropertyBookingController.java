@@ -3,7 +3,6 @@ package com.ga.project2.controller;
 import com.ga.project2.exception.InformationNotFoundException;
 import com.ga.project2.model.PropertyBooking;
 import com.ga.project2.service.PropertyBookingService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ga.project2.model.request.CreatePropertyBooking;
 import com.ga.project2.model.request.UpdateBookingDate;

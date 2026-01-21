@@ -18,7 +18,7 @@ public class ServiceController {
 
     // CREATE
     @PostMapping
-    public Service createService(@ModelAttribute CreateServiceRequest request) {
+    public Service createService(@ModelAttribute CreateServiceRequest request) throws UserNotAuthorizedException {
         return serviceService.createService(request);
     }
 

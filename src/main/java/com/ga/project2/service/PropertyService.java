@@ -3,6 +3,7 @@ package com.ga.project2.service;
 import com.ga.project2.exception.InformationNotFoundException;
 import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.Property;
+import com.ga.project2.model.PropertySchedule;
 import com.ga.project2.model.User;
 import com.ga.project2.model.request.CreatePropertyRequest;
 import com.ga.project2.model.request.ImageModel;
@@ -12,8 +13,9 @@ import com.ga.project2.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -22,16 +24,14 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final ImageServiceImpl imageService;
     private final ImageRepository imageRepository;
-    public PropertyService(PropertyRepository propertyRepository, ImageServiceImpl imageService, ImageRepository imageRepository) {
-        this.propertyRepository = propertyRepository;
-        this.imageService = imageService;
-        this.imageRepository = imageRepository;
-    }
+    private final UserService userService;
 
     // --- CRUD Methods ---
 
-    public Property saveProperty(CreatePropertyRequest model) {
-
+    public Property saveProperty(CreatePropertyRequest model) throws UserNotAuthorizedException {
+        if (UserRoles.CUSTOMER == userService.getUser().getRole()) {
+            throw new UserNotAuthorizedException("Customers are not authorized to create properties");
+        }
         Property property =new Property();
         property.setActive(model.isActive());
         property.setName(model.getName());
@@ -62,8 +62,8 @@ public class PropertyService {
         return propertyRepository.findAll();
     }
 
-    public Optional<Property> getPropertyById(Long id) {
-        return propertyRepository.findById(id);
+    public Property getPropertyById(Long id) {
+        return propertyRepository.findById(id).orElseThrow(() -> new InformationNotFoundException("Property not found with id " + id));
     }
 
     //Update property details
@@ -71,10 +71,12 @@ public class PropertyService {
         if (UserRoles.OWNER == userService.getUser().getRole()) {
             return propertyRepository.findByPropertyIdAndUserId(id, userService.getUser().getId())
                     .map(existing -> {
+                        Set<PropertySchedule> schedules = new HashSet<>(existing.getSchedules());
+                        schedules.addAll(updatedProperty.getSchedules());
                         existing.setName(updatedProperty.getName());
                         existing.setDescription(updatedProperty.getDescription());
                         existing.setPrice(updatedProperty.getPrice());
-                        existing.setScheduleId(updatedProperty.getScheduleId());
+                        existing.setSchedules(schedules.stream().toList());
                         existing.setActive(updatedProperty.isActive());
                         return propertyRepository.save(existing);
                     })
@@ -82,10 +84,12 @@ public class PropertyService {
         } else if (UserRoles.ADMIN == userService.getUser().getRole()) {
             return propertyRepository.findById(id)
                     .map(existing -> {
+                        Set<PropertySchedule> schedules = new HashSet<>(existing.getSchedules());
+                        schedules.addAll(updatedProperty.getSchedules());
                         existing.setName(updatedProperty.getName());
                         existing.setDescription(updatedProperty.getDescription());
                         existing.setPrice(updatedProperty.getPrice());
-                        existing.setScheduleId(updatedProperty.getScheduleId());
+                        existing.setSchedules(schedules.stream().toList());
                         existing.setActive(updatedProperty.isActive());
                         return propertyRepository.save(existing);
                     })

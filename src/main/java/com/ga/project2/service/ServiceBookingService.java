@@ -1,5 +1,7 @@
 package com.ga.project2.service;
 
+import com.ga.project2.exception.InformationNotFoundException;
+import com.ga.project2.exception.MissingFieldException;
 import com.ga.project2.model.ServiceBooking;
 import com.ga.project2.repository.ServiceBookingRepository;
 import jakarta.transaction.Transactional;
@@ -12,13 +14,19 @@ import java.util.List;
 @Transactional
 public class ServiceBookingService {
     private final ServiceBookingRepository serviceBookingRepository;
+    private final UserService userService;
 
-    public ServiceBookingService(ServiceBookingRepository serviceBookingRepository) {
+    public ServiceBookingService(ServiceBookingRepository serviceBookingRepository, UserService userService) {
         this.serviceBookingRepository = serviceBookingRepository;
+        this.userService = userService;
     }
 
     // Create booking
     public ServiceBooking createBooking(Instant bookingDate, Long serviceId, Long providerId, Long userId) {
+        if (bookingDate == null || serviceId == null || providerId == null || userId == null ||
+                bookingDate.toString().isEmpty() || serviceId.toString().isEmpty() || providerId.toString().isEmpty() || userId.toString().isEmpty()) {
+            throw new MissingFieldException("Booking date, service ID, provider ID, and user ID must not be null");
+        }
         ServiceBooking booking = new ServiceBooking();
         booking.setBookingDate(bookingDate);
         booking.setServiceId(serviceId);
@@ -31,7 +39,7 @@ public class ServiceBookingService {
     // Get booking by id
     public ServiceBooking getBooking(Long bookingId) {
         return serviceBookingRepository.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found with id: " + bookingId));
+                .orElseThrow(() -> new InformationNotFoundException("Booking not found with id: " + bookingId));
     }
 
     // Get all bookings
@@ -88,4 +96,11 @@ public class ServiceBookingService {
         return serviceBookingRepository.findByServiceIdAndActiveTrue(serviceId);
     }
 
+
+    public ServiceBooking cancelBooking(Long id) {
+        ServiceBooking booking = serviceBookingRepository.findServiceBookingByBookingIdAndUserId(id,
+                userService.getUser().getId()).orElseThrow(() -> new InformationNotFoundException("Booking with id " + id + " not found for the current user"));
+        booking.setActive(false);
+        return serviceBookingRepository.save(booking);
+    }
 }

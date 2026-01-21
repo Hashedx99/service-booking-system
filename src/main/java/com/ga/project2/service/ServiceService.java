@@ -2,7 +2,6 @@ package com.ga.project2.service;
 
 import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.UserRoles;
-import com.ga.project2.model.Image;
 import com.ga.project2.model.request.CreateServiceRequest;
 import com.ga.project2.model.request.ImageModel;
 import com.ga.project2.model.request.UpdateServiceRequest;
@@ -41,7 +40,10 @@ public class ServiceService {
     }
 
     // function to create a service
-    public com.ga.project2.model.Service createService(CreateServiceRequest request) {
+    public com.ga.project2.model.Service createService(CreateServiceRequest request) throws UserNotAuthorizedException {
+        if (UserRoles.CUSTOMER == userService.getUser().getRole()) {
+            throw new UserNotAuthorizedException("Customers are not authorized to create services");
+        }
         // get the user from the context holder
         var user = userService.getUser();
 
@@ -106,9 +108,10 @@ public class ServiceService {
     }
 
     // function to get a service by id
-    public com.ga.project2.model.Service getServiceById(Long serviceId) throws UserNotAuthorizedException {
+    public com.ga.project2.model.Service getServiceById(Long serviceId) {
         // get and return the service
-        return fetchServiceById(serviceId);
+        return serviceRepository.getServicesByServiceIdAndIsActiveTrue(serviceId).orElseThrow(() ->
+                new InformationNotFoundException("Service with id: " + serviceId + " not found"));
     }
 
     // function to get all the services for a user

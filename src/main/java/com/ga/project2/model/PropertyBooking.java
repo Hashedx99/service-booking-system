@@ -21,6 +21,7 @@ public class PropertyBooking {
 
     private LocalDate bookingDate;
 
+    @JoinColumn(name = "user_id")
     private Long userId;
 
     @ManyToOne

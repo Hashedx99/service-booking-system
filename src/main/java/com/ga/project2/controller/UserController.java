@@ -1,5 +1,6 @@
 package com.ga.project2.controller;
 
+import com.ga.project2.exception.UserNotAuthorizedException;
 import com.ga.project2.model.User;
 import com.ga.project2.model.UserProfile;
 import com.ga.project2.model.request.ChangePasswordRequest;
@@ -58,6 +59,12 @@ public class UserController {
         System.out.println("calling soft delete user in user controller ========>");
         userService.softDelete();
     }
+
+    @DeleteMapping("/delete-user")
+    public void softDeleteUser(@RequestParam Long userId) throws UserNotAuthorizedException {
+        userService.deleteUserById(userId);
+    }
+
     @PutMapping("/set-image")
     public User setImage(ImageModel image){
         System.out.println("calling set image in controller ========>");

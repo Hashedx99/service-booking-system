@@ -4,7 +4,6 @@ import com.ga.project2.model.ServiceBooking;
 import com.ga.project2.model.request.CreateServiceBookingRequest;
 import com.ga.project2.model.request.UpdateBookingDate;
 import com.ga.project2.service.ServiceBookingService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
